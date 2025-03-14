@@ -1811,7 +1811,29 @@ def create_filesets_list(input_folder_path, backtester_report_folder_path):
 
 
 
+# def creatorXml_main():
+#     app = QApplication(sys.argv)
+#     # Set the AppUserModelID to ensure the taskbar uses the correct icon on Windows
+#     if sys.platform.startswith('win'):
+#         ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(u"mycompany.myproduct.creatorxml")
+#     # Set the application icon
+#     icon_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'icon.ico')
+#     if os.path.exists(icon_path):
+#         app.setWindowIcon(QIcon(icon_path))
+#     else:
+#         print(f"Icon file not found at {icon_path}")
 
+#     # Check the license key before starting the application
+#     if not check_license_key():
+#         sys.exit()
+
+#     window = CSVProcessorApp()
+#     window.show()
+#     sys.exit(app.exec_())
+
+
+
+####################################################################
 
 def resource_path(relative_path):
     """
@@ -1874,352 +1896,352 @@ def extract_symbol_from_set_filename(set_file_name):
 # Backtest and Report Generation for Creator OOS Generator
 # ---------------------------------
 
-# def run_creator_oos_generator(params, stop_event, progress_var, total_set_files, start_button, stop_button):
-#     try:
-#         # Unpack parameters
-#         MT5_PATH = params['MT5_PATH']
-#         MT5_DATA_FOLDER = params['MT5_DATA_FOLDER']
-#         SET_FILES_FOLDER = params['SET_FILES_FOLDER']
-#         CUSTOM_REPORT_FOLDER_BASE = params['CUSTOM_REPORT_FOLDER_BASE']
-#         FROM_DATE = params['FROM_DATE']
-#         TO_DATE = params['TO_DATE']
-#         DEPOSIT = params['DEPOSIT']
-#         LEVERAGE = params['LEVERAGE']
-#         PERIOD = params['PERIOD']
-#         EXPERT_ADVISOR = params['EXPERT_ADVISOR']
-#         EXECUTION_MODE = params['EXECUTION_MODE']
-#         MODEL = params['MODEL']
+def run_creator_oos_generator(params, stop_event, progress_var, total_set_files, start_button, stop_button):
+    try:
+        # Unpack parameters
+        MT5_PATH = params['MT5_PATH']
+        MT5_DATA_FOLDER = params['MT5_DATA_FOLDER']
+        SET_FILES_FOLDER = params['SET_FILES_FOLDER']
+        CUSTOM_REPORT_FOLDER_BASE = params['CUSTOM_REPORT_FOLDER_BASE']
+        FROM_DATE = params['FROM_DATE']
+        TO_DATE = params['TO_DATE']
+        DEPOSIT = params['DEPOSIT']
+        LEVERAGE = params['LEVERAGE']
+        PERIOD = params['PERIOD']
+        EXPERT_ADVISOR = params['EXPERT_ADVISOR']
+        EXECUTION_MODE = params['EXECUTION_MODE']
+        MODEL = params['MODEL']
 
-#         # Create a timestamped report folder (relative path)
-#         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-#         CUSTOM_REPORT_FOLDER_NAME = f"creator_oos_report_{timestamp}"
-#         # Relative path from MT5_DATA_FOLDER
-#         CUSTOM_REPORT_FOLDER_RELATIVE = os.path.join(CUSTOM_REPORT_FOLDER_BASE, CUSTOM_REPORT_FOLDER_NAME)
-#         CUSTOM_REPORT_FOLDER_FULL = os.path.join(MT5_DATA_FOLDER, CUSTOM_REPORT_FOLDER_RELATIVE)
-#         os.makedirs(CUSTOM_REPORT_FOLDER_FULL, exist_ok=True)
-#         print(f"Created report folder: {CUSTOM_REPORT_FOLDER_FULL}")
+        # Create a timestamped report folder (relative path)
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        CUSTOM_REPORT_FOLDER_NAME = f"creator_oos_report_{timestamp}"
+        # Relative path from MT5_DATA_FOLDER
+        CUSTOM_REPORT_FOLDER_RELATIVE = os.path.join(CUSTOM_REPORT_FOLDER_BASE, CUSTOM_REPORT_FOLDER_NAME)
+        CUSTOM_REPORT_FOLDER_FULL = os.path.join(MT5_DATA_FOLDER, CUSTOM_REPORT_FOLDER_RELATIVE)
+        os.makedirs(CUSTOM_REPORT_FOLDER_FULL, exist_ok=True)
+        print(f"Created report folder: {CUSTOM_REPORT_FOLDER_FULL}")
 
-#         MT5_PROFILES_TESTER = os.path.join(MT5_DATA_FOLDER, r"MQL5\Profiles\Tester")
-#         # Ensure MT5 Profiles Tester folder exists
-#         os.makedirs(MT5_PROFILES_TESTER, exist_ok=True)
+        MT5_PROFILES_TESTER = os.path.join(MT5_DATA_FOLDER, r"MQL5\Profiles\Tester")
+        # Ensure MT5 Profiles Tester folder exists
+        os.makedirs(MT5_PROFILES_TESTER, exist_ok=True)
 
-#         # Check for .set files
-#         set_files = [f for f in os.listdir(SET_FILES_FOLDER) if f.endswith('.set')]
-#         if not set_files:
-#             print(f"No .set files found in '{SET_FILES_FOLDER}'")
-#             #messagebox.showerror("Error", f"No .set files found in '{SET_FILES_FOLDER}'")
-#             # Re-enable the Start Test button and disable Stop Test button
-#             start_button.config(state=tk.NORMAL)
-#             stop_button.config(state=tk.DISABLED)
-#             return
+        # Check for .set files
+        set_files = [f for f in os.listdir(SET_FILES_FOLDER) if f.endswith('.set')]
+        if not set_files:
+            print(f"No .set files found in '{SET_FILES_FOLDER}'")
+            #messagebox.showerror("Error", f"No .set files found in '{SET_FILES_FOLDER}'")
+            # Re-enable the Start Test button and disable Stop Test button
+            start_button.config(state=tk.NORMAL)
+            stop_button.config(state=tk.DISABLED)
+            return
 
-#         total_files = len(set_files)
-#         progress_step = 100 / total_files  # For progress bar increment
+        total_files = len(set_files)
+        progress_step = 100 / total_files  # For progress bar increment
 
-#         # Initialize progress
-#         progress_var.set(0)
-#         current_progress = 0
+        # Initialize progress
+        progress_var.set(0)
+        current_progress = 0
 
-#         # Backtesting Automation
-#         for index, set_file in enumerate(set_files):
-#             if stop_event.is_set():
-#                 print("Backtesting stopped by user.")
-#                 messagebox.showinfo("Stopped", "Backtesting stopped by user.")
-#                 # Re-enable the Start Test button and disable Stop Test button
-#                 start_button.config(state=tk.NORMAL)
-#                 stop_button.config(state=tk.DISABLED)
-#                 return
+        # Backtesting Automation
+        for index, set_file in enumerate(set_files):
+            if stop_event.is_set():
+                print("Backtesting stopped by user.")
+                messagebox.showinfo("Stopped", "Backtesting stopped by user.")
+                # Re-enable the Start Test button and disable Stop Test button
+                start_button.config(state=tk.NORMAL)
+                stop_button.config(state=tk.DISABLED)
+                return
 
-#             print(f"\nProcessing set file: {set_file}")
+            print(f"\nProcessing set file: {set_file}")
 
-#             SET_FILE_NAME = os.path.splitext(set_file)[0]
+            SET_FILE_NAME = os.path.splitext(set_file)[0]
 
-#             # Extract symbol from the set file name
-#             symbol = extract_symbol_from_set_filename(SET_FILE_NAME)
-#             if not symbol:
-#                 print(f"Could not extract symbol from set file '{set_file}'. Skipping.")
-#                 continue
+            # Extract symbol from the set file name
+            symbol = extract_symbol_from_set_filename(SET_FILE_NAME)
+            if not symbol:
+                print(f"Could not extract symbol from set file '{set_file}'. Skipping.")
+                continue
 
-#             print(f"Extracted symbol '{symbol}' from set file.")
+            print(f"Extracted symbol '{symbol}' from set file.")
 
-#             # Copy the .set file using shutil.copy for reliability
-#             src_set_file = os.path.join(SET_FILES_FOLDER, set_file)
-#             dest_set_file = os.path.join(MT5_PROFILES_TESTER, set_file)
-#             try:
-#                 shutil.copy(src_set_file, dest_set_file)
-#                 print(f"Copied '{set_file}' to '{MT5_PROFILES_TESTER}'")
-#             except Exception as e:
-#                 print(f"Failed to copy '{set_file}': {e}")
-#                 messagebox.showerror("Error", f"Failed to copy '{set_file}': {e}")
-#                 continue  # Proceed to the next .set file
+            # Copy the .set file using shutil.copy for reliability
+            src_set_file = os.path.join(SET_FILES_FOLDER, set_file)
+            dest_set_file = os.path.join(MT5_PROFILES_TESTER, set_file)
+            try:
+                shutil.copy(src_set_file, dest_set_file)
+                print(f"Copied '{set_file}' to '{MT5_PROFILES_TESTER}'")
+            except Exception as e:
+                print(f"Failed to copy '{set_file}': {e}")
+                messagebox.showerror("Error", f"Failed to copy '{set_file}': {e}")
+                continue  # Proceed to the next .set file
 
-#             # Generate the .ini file
-#             INI_FILE = os.path.join(MT5_DATA_FOLDER, f"temp_{SET_FILE_NAME}.ini")
-#             report_filename = SET_FILE_NAME  # Do not add any extension
-#             # Report path relative to MT5_DATA_FOLDER
-#             report_path_relative = os.path.join(CUSTOM_REPORT_FOLDER_BASE, CUSTOM_REPORT_FOLDER_NAME, report_filename)
-#             # Ensure backslashes are correctly formatted
-#             report_path_relative = report_path_relative.replace('/', '\\')
+            # Generate the .ini file
+            INI_FILE = os.path.join(MT5_DATA_FOLDER, f"temp_{SET_FILE_NAME}.ini")
+            report_filename = SET_FILE_NAME  # Do not add any extension
+            # Report path relative to MT5_DATA_FOLDER
+            report_path_relative = os.path.join(CUSTOM_REPORT_FOLDER_BASE, CUSTOM_REPORT_FOLDER_NAME, report_filename)
+            # Ensure backslashes are correctly formatted
+            report_path_relative = report_path_relative.replace('/', '\\')
 
-#             with open(INI_FILE, 'w') as ini_file:
-#                 ini_file.write("; start strategy tester\n")
-#                 ini_file.write("[Tester]\n")
-#                 ini_file.write(f"Expert={EXPERT_ADVISOR}\n")
-#                 ini_file.write(f"ExpertParameters={set_file}\n")
-#                 ini_file.write(f"Symbol={symbol}\n")
-#                 ini_file.write(f"Period={PERIOD}\n")
-#                 ini_file.write(f"Model={MODEL}\n")
-#                 ini_file.write(f"ExecutionMode={EXECUTION_MODE}\n")
-#                 ini_file.write("Optimization=0\n")  # No optimization
-#                 ini_file.write("OptimizationCriterion=0\n")  # Not used
-#                 ini_file.write("ForwardMode=0\n")  # No forward testing
-#                 ini_file.write("DateEnable=true\n")
-#                 ini_file.write(f"FromDate={FROM_DATE}\n")
-#                 ini_file.write(f"ToDate={TO_DATE}\n")
-#                 # Use relative report path, without quotes
-#                 ini_file.write(f"Report={report_path_relative}\n")
-#                 ini_file.write("ReplaceReport=true\n")
-#                 ini_file.write(f"Deposit={DEPOSIT}\n")
-#                 ini_file.write(f"Leverage={LEVERAGE}\n")
-#                 # Do not specify ReportFormat
+            with open(INI_FILE, 'w') as ini_file:
+                ini_file.write("; start strategy tester\n")
+                ini_file.write("[Tester]\n")
+                ini_file.write(f"Expert={EXPERT_ADVISOR}\n")
+                ini_file.write(f"ExpertParameters={set_file}\n")
+                ini_file.write(f"Symbol={symbol}\n")
+                ini_file.write(f"Period={PERIOD}\n")
+                ini_file.write(f"Model={MODEL}\n")
+                ini_file.write(f"ExecutionMode={EXECUTION_MODE}\n")
+                ini_file.write("Optimization=0\n")  # No optimization
+                ini_file.write("OptimizationCriterion=0\n")  # Not used
+                ini_file.write("ForwardMode=0\n")  # No forward testing
+                ini_file.write("DateEnable=true\n")
+                ini_file.write(f"FromDate={FROM_DATE}\n")
+                ini_file.write(f"ToDate={TO_DATE}\n")
+                # Use relative report path, without quotes
+                ini_file.write(f"Report={report_path_relative}\n")
+                ini_file.write("ReplaceReport=true\n")
+                ini_file.write(f"Deposit={DEPOSIT}\n")
+                ini_file.write(f"Leverage={LEVERAGE}\n")
+                # Do not specify ReportFormat
 
-#             print(f"Generated .ini file at '{INI_FILE}' with Report path '{report_path_relative}'")
+            print(f"Generated .ini file at '{INI_FILE}' with Report path '{report_path_relative}'")
 
-#             # Ensure MT5 is not running
-#             print("Ensuring no previous MT5 instances are running...")
-#             for proc in psutil.process_iter(['name']):
-#                 if proc.info['name'] and proc.info['name'].lower() == 'terminal64.exe':
-#                     proc.kill()
-#                     print(f"Killed process {proc.pid} ({proc.info['name']})")
-#             print("Waiting for MT5 to fully close...")
-#             time.sleep(5)
+            # Ensure MT5 is not running
+            print("Ensuring no previous MT5 instances are running...")
+            for proc in psutil.process_iter(['name']):
+                if proc.info['name'] and proc.info['name'].lower() == 'terminal64.exe':
+                    proc.kill()
+                    print(f"Killed process {proc.pid} ({proc.info['name']})")
+            print("Waiting for MT5 to fully close...")
+            time.sleep(5)
 
-#             if stop_event.is_set():
-#                 print("Backtesting stopped by user.")
-#                 messagebox.showinfo("Stopped", "Backtesting stopped by user.")
-#                 # Re-enable the Start Test button and disable Stop Test button
-#                 start_button.config(state=tk.NORMAL)
-#                 stop_button.config(state=tk.DISABLED)
-#                 return
+            if stop_event.is_set():
+                print("Backtesting stopped by user.")
+                messagebox.showinfo("Stopped", "Backtesting stopped by user.")
+                # Re-enable the Start Test button and disable Stop Test button
+                start_button.config(state=tk.NORMAL)
+                stop_button.config(state=tk.DISABLED)
+                return
 
-#             # Start MT5
-#             print(f"Starting MT5 with config '{INI_FILE}'")
-#             try:
-#                 mt5_process = subprocess.Popen([MT5_PATH, f"/config:{INI_FILE}"])
-#                 print(f"Started MT5 process with PID {mt5_process.pid}")
-#             except Exception as e:
-#                 print(f"Failed to start MT5: {e}")
-#                 messagebox.showerror("Error", f"Failed to start MT5: {e}")
-#                 continue  # Proceed to the next .set file
+            # Start MT5
+            print(f"Starting MT5 with config '{INI_FILE}'")
+            try:
+                mt5_process = subprocess.Popen([MT5_PATH, f"/config:{INI_FILE}"])
+                print(f"Started MT5 process with PID {mt5_process.pid}")
+            except Exception as e:
+                print(f"Failed to start MT5: {e}")
+                messagebox.showerror("Error", f"Failed to start MT5: {e}")
+                continue  # Proceed to the next .set file
 
-#             # Wait for any file to be created in the report folder
-#             max_wait_seconds = 7200  # 2 hours
-#             wait_counter = 0
-#             report_exists = False
-#             print("Waiting for report file to be created...")
+            # Wait for any file to be created in the report folder
+            max_wait_seconds = 7200  # 2 hours
+            wait_counter = 0
+            report_exists = False
+            print("Waiting for report file to be created...")
 
-#             # Full path to the report folder
-#             report_folder_full_path = os.path.join(MT5_DATA_FOLDER, os.path.dirname(report_path_relative))
+            # Full path to the report folder
+            report_folder_full_path = os.path.join(MT5_DATA_FOLDER, os.path.dirname(report_path_relative))
 
-#             # Initial list of files in the report folder
-#             initial_files = set(os.listdir(report_folder_full_path))
+            # Initial list of files in the report folder
+            initial_files = set(os.listdir(report_folder_full_path))
 
-#             while wait_counter < max_wait_seconds:
-#                 if stop_event.is_set():
-#                     print("Backtesting stopped by user.")
-#                     mt5_process.kill()
-#                     messagebox.showinfo("Stopped", "Backtesting stopped by user.")
-#                     # Re-enable the Start Test button and disable Stop Test button
-#                     start_button.config(state=tk.NORMAL)
-#                     stop_button.config(state=tk.DISABLED)
-#                     return
+            while wait_counter < max_wait_seconds:
+                if stop_event.is_set():
+                    print("Backtesting stopped by user.")
+                    mt5_process.kill()
+                    messagebox.showinfo("Stopped", "Backtesting stopped by user.")
+                    # Re-enable the Start Test button and disable Stop Test button
+                    start_button.config(state=tk.NORMAL)
+                    stop_button.config(state=tk.DISABLED)
+                    return
 
-#                 # Get the current list of files
-#                 current_files = set(os.listdir(report_folder_full_path))
-#                 # Check for new files
-#                 new_files = current_files - initial_files
-#                 if new_files:
-#                     report_exists = True
-#                     print(f"Report file(s) created: {new_files}")
-#                     break
+                # Get the current list of files
+                current_files = set(os.listdir(report_folder_full_path))
+                # Check for new files
+                new_files = current_files - initial_files
+                if new_files:
+                    report_exists = True
+                    print(f"Report file(s) created: {new_files}")
+                    break
 
-#                 time.sleep(5)
-#                 wait_counter += 5
-#                 print(f"Waited {wait_counter} seconds for report file to be created...")
+                time.sleep(5)
+                wait_counter += 5
+                print(f"Waited {wait_counter} seconds for report file to be created...")
 
-#             if not report_exists:
-#                 print("Report file was not created within expected time. Forcing MT5 to close...")
-#                 mt5_process.kill()
-#                 messagebox.showerror("Error", f"Report file was not created for '{set_file}'.")
-#                 continue  # Proceed to the next .set file
+            if not report_exists:
+                print("Report file was not created within expected time. Forcing MT5 to close...")
+                mt5_process.kill()
+                messagebox.showerror("Error", f"Report file was not created for '{set_file}'.")
+                continue  # Proceed to the next .set file
 
-#             # Close MT5
-#             print("Closing MT5...")
-#             mt5_process.kill()
-#             print("MT5 closed.")
+            # Close MT5
+            print("Closing MT5...")
+            mt5_process.kill()
+            print("MT5 closed.")
 
-#             # Delete the .ini file
-#             if os.path.exists(INI_FILE):
-#                 os.remove(INI_FILE)
-#                 print(f"Deleted temporary .ini file '{INI_FILE}'")
+            # Delete the .ini file
+            if os.path.exists(INI_FILE):
+                os.remove(INI_FILE)
+                print(f"Deleted temporary .ini file '{INI_FILE}'")
 
-#             # Update progress bar
-#             current_progress += progress_step
-#             progress_var.set(current_progress)
+            # Update progress bar
+            current_progress += progress_step
+            progress_var.set(current_progress)
 
-#             # Wait before starting the next test
-#             print("Waiting before starting the next test...")
-#             time.sleep(5)
+            # Wait before starting the next test
+            print("Waiting before starting the next test...")
+            time.sleep(5)
 
-#         # After all backtests are done, process the reports and generate Excel summary
-#         if not stop_event.is_set():
-#             print("All backtests are completed.")
-#             progress_var.set(100)
-#             print("Processing reports and generating Excel file...")
+        # After all backtests are done, process the reports and generate Excel summary
+        if not stop_event.is_set():
+            print("All backtests are completed.")
+            progress_var.set(100)
+            print("Processing reports and generating Excel file...")
 
-#             # Define the Excel summary file path inside the report folder
-#             OUTPUT_EXCEL_FILE = os.path.join(CUSTOM_REPORT_FOLDER_FULL, "total_net_profit_summary.xlsx")
+            # Define the Excel summary file path inside the report folder
+            OUTPUT_EXCEL_FILE = os.path.join(CUSTOM_REPORT_FOLDER_FULL, "total_net_profit_summary.xlsx")
 
-#             # List of report files
-#             report_files = [f for f in os.listdir(CUSTOM_REPORT_FOLDER_FULL) if f.endswith('.htm') or f.endswith('.html')]
-#             if not report_files:
-#                 print(f"No HTML report files found in '{CUSTOM_REPORT_FOLDER_FULL}'")
-#                 messagebox.showerror("Error", f"No HTML report files found in '{CUSTOM_REPORT_FOLDER_FULL}'")
-#                 # Re-enable the Start Test button and disable Stop Test button
-#                 start_button.config(state=tk.NORMAL)
-#                 stop_button.config(state=tk.DISABLED)
-#                 return
+            # List of report files
+            report_files = [f for f in os.listdir(CUSTOM_REPORT_FOLDER_FULL) if f.endswith('.htm') or f.endswith('.html')]
+            if not report_files:
+                print(f"No HTML report files found in '{CUSTOM_REPORT_FOLDER_FULL}'")
+                messagebox.showerror("Error", f"No HTML report files found in '{CUSTOM_REPORT_FOLDER_FULL}'")
+                # Re-enable the Start Test button and disable Stop Test button
+                start_button.config(state=tk.NORMAL)
+                stop_button.config(state=tk.DISABLED)
+                return
 
-#             total_net_profit_summary = []  # To store extracted data and set file names
+            total_net_profit_summary = []  # To store extracted data and set file names
 
-#             for report_file in report_files:
-#                 if stop_event.is_set():
-#                     print("Processing stopped by user.")
-#                     messagebox.showinfo("Stopped", "Processing stopped by user.")
-#                     # Re-enable the Start Test button and disable Stop Test button
-#                     start_button.config(state=tk.NORMAL)
-#                     stop_button.config(state=tk.DISABLED)
-#                     return
+            for report_file in report_files:
+                if stop_event.is_set():
+                    print("Processing stopped by user.")
+                    messagebox.showinfo("Stopped", "Processing stopped by user.")
+                    # Re-enable the Start Test button and disable Stop Test button
+                    start_button.config(state=tk.NORMAL)
+                    stop_button.config(state=tk.DISABLED)
+                    return
 
-#                 report_path = os.path.join(CUSTOM_REPORT_FOLDER_FULL, report_file)
-#                 print(f"Processing report: {report_file}")
+                report_path = os.path.join(CUSTOM_REPORT_FOLDER_FULL, report_file)
+                print(f"Processing report: {report_file}")
 
-#                 # Open the file in binary mode and let BeautifulSoup detect encoding
-#                 try:
-#                     with open(report_path, 'rb') as file:
-#                         content = file.read()
-#                         soup = BeautifulSoup(content, 'html.parser')
-#                 except Exception as e:
-#                     print(f"Failed to read report file '{report_path}': {e}")
-#                     continue  # Proceed to the next report file
+                # Open the file in binary mode and let BeautifulSoup detect encoding
+                try:
+                    with open(report_path, 'rb') as file:
+                        content = file.read()
+                        soup = BeautifulSoup(content, 'html.parser')
+                except Exception as e:
+                    print(f"Failed to read report file '{report_path}': {e}")
+                    continue  # Proceed to the next report file
 
-#                 set_file_name = os.path.splitext(report_file)[0]
+                set_file_name = os.path.splitext(report_file)[0]
 
-#                 # Initialize variables
-#                 total_net_profit_value = None
-#                 max_consec_losses_count = None
-#                 max_consec_losses_amount = None
+                # Initialize variables
+                total_net_profit_value = None
+                max_consec_losses_count = None
+                max_consec_losses_amount = None
 
-#                 # Extract 'Total Net Profit'
-#                 total_net_profit_label = soup.find('td', string=re.compile(r'Total Net Profit', re.IGNORECASE))
-#                 if total_net_profit_label:
-#                     total_net_profit_cell = total_net_profit_label.find_next_sibling('td')
-#                     if total_net_profit_cell:
-#                         profit_text = total_net_profit_cell.get_text(strip=True)
-#                         print(f"Extracted Total Net Profit text in {report_file}: '{profit_text}'")
-#                         # Remove any commas or currency symbols
-#                         profit_text_clean = re.sub(r'[^\d\.-]', '', profit_text)
-#                         try:
-#                             total_net_profit_value = float(profit_text_clean)
-#                             print(f"Converted Total Net Profit value in {report_file}: {total_net_profit_value}")
-#                         except ValueError:
-#                             print(f"Could not convert Total Net Profit value to float in {report_file}")
-#                     else:
-#                         print(f"Total Net Profit value not found next to label in {report_file}")
-#                 else:
-#                     print(f"Total Net Profit label not found in {report_file}")
+                # Extract 'Total Net Profit'
+                total_net_profit_label = soup.find('td', string=re.compile(r'Total Net Profit', re.IGNORECASE))
+                if total_net_profit_label:
+                    total_net_profit_cell = total_net_profit_label.find_next_sibling('td')
+                    if total_net_profit_cell:
+                        profit_text = total_net_profit_cell.get_text(strip=True)
+                        print(f"Extracted Total Net Profit text in {report_file}: '{profit_text}'")
+                        # Remove any commas or currency symbols
+                        profit_text_clean = re.sub(r'[^\d\.-]', '', profit_text)
+                        try:
+                            total_net_profit_value = float(profit_text_clean)
+                            print(f"Converted Total Net Profit value in {report_file}: {total_net_profit_value}")
+                        except ValueError:
+                            print(f"Could not convert Total Net Profit value to float in {report_file}")
+                    else:
+                        print(f"Total Net Profit value not found next to label in {report_file}")
+                else:
+                    print(f"Total Net Profit label not found in {report_file}")
 
-#                 # Extract 'Maximum consecutive losses ($):'
-#                 max_consec_losses_label = soup.find('td', string=re.compile(r'Maximum consecutive losses', re.IGNORECASE))
-#                 if max_consec_losses_label:
-#                     max_consec_losses_cell = max_consec_losses_label.find_next_sibling('td')
-#                     if max_consec_losses_cell:
-#                         max_consec_losses_text = max_consec_losses_cell.get_text(strip=True)
-#                         print(f"Extracted Max Consecutive Losses text in {report_file}: '{max_consec_losses_text}'")
-#                         # Use regex to extract the count and amount
-#                         match = re.match(r'(\d+)\s*\(([-\d\s.,]+)\)', max_consec_losses_text)
-#                         if match:
-#                             # Extract count
-#                             max_consec_losses_count = int(match.group(1))
-#                             # Extract amount and clean it
-#                             max_consec_losses_amount_text = match.group(2)
-#                             max_consec_losses_amount_clean = re.sub(r'[^\d\.-]', '', max_consec_losses_amount_text)
-#                             try:
-#                                 max_consec_losses_amount = float(max_consec_losses_amount_clean)
-#                                 print(f"Extracted Max Consecutive Losses count: {max_consec_losses_count}, amount: {max_consec_losses_amount}")
-#                             except ValueError:
-#                                 print(f"Could not convert Max Consecutive Losses amount to float in {report_file}")
-#                                 max_consec_losses_amount = None
-#                         else:
-#                             print(f"Could not parse Max Consecutive Losses text in {report_file}")
-#                     else:
-#                         print(f"Max Consecutive Losses value not found next to label in {report_file}")
-#                 else:
-#                     print(f"Max Consecutive Losses label not found in {report_file}")
+                # Extract 'Maximum consecutive losses ($):'
+                max_consec_losses_label = soup.find('td', string=re.compile(r'Maximum consecutive losses', re.IGNORECASE))
+                if max_consec_losses_label:
+                    max_consec_losses_cell = max_consec_losses_label.find_next_sibling('td')
+                    if max_consec_losses_cell:
+                        max_consec_losses_text = max_consec_losses_cell.get_text(strip=True)
+                        print(f"Extracted Max Consecutive Losses text in {report_file}: '{max_consec_losses_text}'")
+                        # Use regex to extract the count and amount
+                        match = re.match(r'(\d+)\s*\(([-\d\s.,]+)\)', max_consec_losses_text)
+                        if match:
+                            # Extract count
+                            max_consec_losses_count = int(match.group(1))
+                            # Extract amount and clean it
+                            max_consec_losses_amount_text = match.group(2)
+                            max_consec_losses_amount_clean = re.sub(r'[^\d\.-]', '', max_consec_losses_amount_text)
+                            try:
+                                max_consec_losses_amount = float(max_consec_losses_amount_clean)
+                                print(f"Extracted Max Consecutive Losses count: {max_consec_losses_count}, amount: {max_consec_losses_amount}")
+                            except ValueError:
+                                print(f"Could not convert Max Consecutive Losses amount to float in {report_file}")
+                                max_consec_losses_amount = None
+                        else:
+                            print(f"Could not parse Max Consecutive Losses text in {report_file}")
+                    else:
+                        print(f"Max Consecutive Losses value not found next to label in {report_file}")
+                else:
+                    print(f"Max Consecutive Losses label not found in {report_file}")
 
-#                 # Append data to the summary list
-#                 total_net_profit_summary.append({
-#                     'SetFile': set_file_name,
-#                     'TotalNetProfit': total_net_profit_value,
-#                     'MaxConsecutiveLossesCount': max_consec_losses_count,
-#                     'MaxConsecutiveLossesAmount': max_consec_losses_amount
-#                 })
+                # Append data to the summary list
+                total_net_profit_summary.append({
+                    'SetFile': set_file_name,
+                    'TotalNetProfit': total_net_profit_value,
+                    'MaxConsecutiveLossesCount': max_consec_losses_count,
+                    'MaxConsecutiveLossesAmount': max_consec_losses_amount
+                })
 
-#             # Create a DataFrame for the summary
-#             summary_df = pd.DataFrame(total_net_profit_summary)
-#             try:
-#                 if not summary_df.empty:
-#                     # Remove entries with None or NaN values in 'TotalNetProfit'
-#                     summary_df = summary_df.dropna(subset=['TotalNetProfit'])
-#                     # Convert numeric columns to numeric types
-#                     summary_df['TotalNetProfit'] = pd.to_numeric(summary_df['TotalNetProfit'], errors='coerce')
-#                     summary_df['MaxConsecutiveLossesCount'] = pd.to_numeric(summary_df['MaxConsecutiveLossesCount'], errors='coerce')
-#                     summary_df['MaxConsecutiveLossesAmount'] = pd.to_numeric(summary_df['MaxConsecutiveLossesAmount'], errors='coerce')
-#                     # Sort by 'TotalNetProfit' descending
-#                     summary_df = summary_df.sort_values(by='TotalNetProfit', ascending=False)
-#                 else:
-#                     print("No data extracted.")
-#                     summary_df = pd.DataFrame()
-#             except:
-#                 print("No data extracted.")
-#                 summary_df = pd.DataFrame()
+            # Create a DataFrame for the summary
+            summary_df = pd.DataFrame(total_net_profit_summary)
+            try:
+                if not summary_df.empty:
+                    # Remove entries with None or NaN values in 'TotalNetProfit'
+                    summary_df = summary_df.dropna(subset=['TotalNetProfit'])
+                    # Convert numeric columns to numeric types
+                    summary_df['TotalNetProfit'] = pd.to_numeric(summary_df['TotalNetProfit'], errors='coerce')
+                    summary_df['MaxConsecutiveLossesCount'] = pd.to_numeric(summary_df['MaxConsecutiveLossesCount'], errors='coerce')
+                    summary_df['MaxConsecutiveLossesAmount'] = pd.to_numeric(summary_df['MaxConsecutiveLossesAmount'], errors='coerce')
+                    # Sort by 'TotalNetProfit' descending
+                    summary_df = summary_df.sort_values(by='TotalNetProfit', ascending=False)
+                else:
+                    print("No data extracted.")
+                    summary_df = pd.DataFrame()
+            except:
+                print("No data extracted.")
+                summary_df = pd.DataFrame()
 
-#             # Write to Excel inside the report folder
-#             try:
-#                 with pd.ExcelWriter(OUTPUT_EXCEL_FILE, engine='openpyxl') as writer:
-#                     if not summary_df.empty:
-#                         summary_df.to_excel(writer, sheet_name='Summary', index=False)
-#                 print(f"Excel file created: {OUTPUT_EXCEL_FILE}")
-#                 messagebox.showinfo("Success", f"Testing completed!\nExcel file created:\n{OUTPUT_EXCEL_FILE}")
-#             except Exception as e:
-#                 print(f"Failed to write Excel file '{OUTPUT_EXCEL_FILE}': {e}")
-#                 messagebox.showerror("Error", f"Failed to write Excel file '{OUTPUT_EXCEL_FILE}': {e}")
+            # Write to Excel inside the report folder
+            try:
+                with pd.ExcelWriter(OUTPUT_EXCEL_FILE, engine='openpyxl') as writer:
+                    if not summary_df.empty:
+                        summary_df.to_excel(writer, sheet_name='Summary', index=False)
+                print(f"Excel file created: {OUTPUT_EXCEL_FILE}")
+                messagebox.showinfo("Success", f"Testing completed!\nExcel file created:\n{OUTPUT_EXCEL_FILE}")
+            except Exception as e:
+                print(f"Failed to write Excel file '{OUTPUT_EXCEL_FILE}': {e}")
+                messagebox.showerror("Error", f"Failed to write Excel file '{OUTPUT_EXCEL_FILE}': {e}")
 
-#             # Re-enable the Start Test button and disable Stop Test button
-#             start_button.config(state=tk.NORMAL)
-#             stop_button.config(state=tk.DISABLED)
+            # Re-enable the Start Test button and disable Stop Test button
+            start_button.config(state=tk.NORMAL)
+            stop_button.config(state=tk.DISABLED)
 
-#     except Exception as e:
-#         print(f"An unexpected error occurred: {e}")
-#         messagebox.showerror("Error", f"An unexpected error occurred: {e}")
-#         # Re-enable the Start Test button and disable Stop Test button
-#         start_button.config(state=tk.NORMAL)
-#         stop_button.config(state=tk.DISABLED)
-#         return
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+        messagebox.showerror("Error", f"An unexpected error occurred: {e}")
+        # Re-enable the Start Test button and disable Stop Test button
+        start_button.config(state=tk.NORMAL)
+        stop_button.config(state=tk.DISABLED)
+        return
 
-# # ---------------------------------
-# # Backtest and Report Generation for Creator OOS Generator
-# # ---------------------------------
+# ---------------------------------
+# Backtest and Report Generation for Creator OOS Generator
+# ---------------------------------
 
 def run_creator_oos_generator_for_automation(params_creator_oos, stop_event, progress_var,progress_label, total_set_files, start_button, stop_button):
     def update_progress(value, message):
@@ -2608,224 +2630,224 @@ def run_creator_oos_generator_for_automation(params_creator_oos, stop_event, pro
 # Backtest and Report Generation for Backtester
 # ---------------------------------
 
-# def run_backtester(params, stop_event, progress_var, total_set_files, start_button, stop_button):
-#     try:
-#         # Unpack parameters
-#         MT5_PATH = params['MT5_PATH']
-#         MT5_DATA_FOLDER = params['MT5_DATA_FOLDER']
-#         SET_FILES_FOLDER = params['SET_FILES_FOLDER']
-#         CUSTOM_REPORT_FOLDER_BASE = params['CUSTOM_REPORT_FOLDER_BASE']
-#         FROM_DATE = params['FROM_DATE']
-#         TO_DATE = params['TO_DATE']
-#         FORWARD_DATE = params['FORWARD_DATE']
-#         DEPOSIT = params['DEPOSIT']
-#         LEVERAGE = params['LEVERAGE']
-#         PERIOD = params['PERIOD']
-#         EXPERT_ADVISOR = params['EXPERT_ADVISOR']
-#         EXECUTION_MODE = params['EXECUTION_MODE']
-#         MODEL = params['MODEL']
-#         OPTIMIZATION = params['OPTIMIZATION']
-#         FORWARD_MODE = params['FORWARD_MODE']
-#         OPTIMIZATION_CRITERION = params['OPTIMIZATION_CRITERION']
+def run_backtester(params, stop_event, progress_var, total_set_files, start_button, stop_button):
+    try:
+        # Unpack parameters
+        MT5_PATH = params['MT5_PATH']
+        MT5_DATA_FOLDER = params['MT5_DATA_FOLDER']
+        SET_FILES_FOLDER = params['SET_FILES_FOLDER']
+        CUSTOM_REPORT_FOLDER_BASE = params['CUSTOM_REPORT_FOLDER_BASE']
+        FROM_DATE = params['FROM_DATE']
+        TO_DATE = params['TO_DATE']
+        FORWARD_DATE = params['FORWARD_DATE']
+        DEPOSIT = params['DEPOSIT']
+        LEVERAGE = params['LEVERAGE']
+        PERIOD = params['PERIOD']
+        EXPERT_ADVISOR = params['EXPERT_ADVISOR']
+        EXECUTION_MODE = params['EXECUTION_MODE']
+        MODEL = params['MODEL']
+        OPTIMIZATION = params['OPTIMIZATION']
+        FORWARD_MODE = params['FORWARD_MODE']
+        OPTIMIZATION_CRITERION = params['OPTIMIZATION_CRITERION']
 
-#         # Create a timestamped report folder (relative path)
-#         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-#         CUSTOM_REPORT_FOLDER_NAME = f"backtester_report_{timestamp}"
-#         # Relative path from MT5_DATA_FOLDER
-#         CUSTOM_REPORT_FOLDER_RELATIVE = os.path.join(CUSTOM_REPORT_FOLDER_BASE, CUSTOM_REPORT_FOLDER_NAME)
-#         CUSTOM_REPORT_FOLDER_FULL = os.path.join(MT5_DATA_FOLDER, CUSTOM_REPORT_FOLDER_RELATIVE)
-#         os.makedirs(CUSTOM_REPORT_FOLDER_FULL, exist_ok=True)
-#         print(f"Created report folder: {CUSTOM_REPORT_FOLDER_FULL}")
+        # Create a timestamped report folder (relative path)
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        CUSTOM_REPORT_FOLDER_NAME = f"backtester_report_{timestamp}"
+        # Relative path from MT5_DATA_FOLDER
+        CUSTOM_REPORT_FOLDER_RELATIVE = os.path.join(CUSTOM_REPORT_FOLDER_BASE, CUSTOM_REPORT_FOLDER_NAME)
+        CUSTOM_REPORT_FOLDER_FULL = os.path.join(MT5_DATA_FOLDER, CUSTOM_REPORT_FOLDER_RELATIVE)
+        os.makedirs(CUSTOM_REPORT_FOLDER_FULL, exist_ok=True)
+        print(f"Created report folder: {CUSTOM_REPORT_FOLDER_FULL}")
 
-#         MT5_PROFILES_TESTER = os.path.join(MT5_DATA_FOLDER, r"MQL5\Profiles\Tester")
-#         # Ensure MT5 Profiles Tester folder exists
-#         os.makedirs(MT5_PROFILES_TESTER, exist_ok=True)
+        MT5_PROFILES_TESTER = os.path.join(MT5_DATA_FOLDER, r"MQL5\Profiles\Tester")
+        # Ensure MT5 Profiles Tester folder exists
+        os.makedirs(MT5_PROFILES_TESTER, exist_ok=True)
 
-#         # Check for .set files
-#         set_files = [f for f in os.listdir(SET_FILES_FOLDER) if f.endswith('.set')]
-#         if not set_files:
-#             print(f"No .set files found in '{SET_FILES_FOLDER}'")
-#             messagebox.showerror("Error", f"No .set files found in '{SET_FILES_FOLDER}'")
-#             # Re-enable the Start Test button and disable Stop Test button
-#             start_button.config(state=tk.NORMAL)
-#             stop_button.config(state=tk.DISABLED)
-#             return
+        # Check for .set files
+        set_files = [f for f in os.listdir(SET_FILES_FOLDER) if f.endswith('.set')]
+        if not set_files:
+            print(f"No .set files found in '{SET_FILES_FOLDER}'")
+            messagebox.showerror("Error", f"No .set files found in '{SET_FILES_FOLDER}'")
+            # Re-enable the Start Test button and disable Stop Test button
+            start_button.config(state=tk.NORMAL)
+            stop_button.config(state=tk.DISABLED)
+            return
 
-#         total_files = len(set_files)
-#         progress_step = 100 / total_files  # For progress bar increment
+        total_files = len(set_files)
+        progress_step = 100 / total_files  # For progress bar increment
 
-#         # Initialize progress
-#         progress_var.set(0)
-#         current_progress = 0
+        # Initialize progress
+        progress_var.set(0)
+        current_progress = 0
 
-#         # Backtesting Automation
-#         for index, set_file in enumerate(set_files):
-#             if stop_event.is_set():
-#                 print("Backtesting stopped by user.")
-#                 messagebox.showinfo("Stopped", "Backtesting stopped by user.")
-#                 # Re-enable the Start Test button and disable Stop Test button
-#                 start_button.config(state=tk.NORMAL)
-#                 stop_button.config(state=tk.DISABLED)
-#                 return
+        # Backtesting Automation
+        for index, set_file in enumerate(set_files):
+            if stop_event.is_set():
+                print("Backtesting stopped by user.")
+                messagebox.showinfo("Stopped", "Backtesting stopped by user.")
+                # Re-enable the Start Test button and disable Stop Test button
+                start_button.config(state=tk.NORMAL)
+                stop_button.config(state=tk.DISABLED)
+                return
 
-#             print(f"\nProcessing set file: {set_file}")
+            print(f"\nProcessing set file: {set_file}")
 
-#             SET_FILE_NAME = os.path.splitext(set_file)[0]
+            SET_FILE_NAME = os.path.splitext(set_file)[0]
 
-#             # Extract symbol from the set file name
-#             symbol = extract_symbol_from_set_filename(SET_FILE_NAME)
-#             if not symbol:
-#                 print(f"Could not extract symbol from set file '{set_file}'. Skipping.")
-#                 continue
+            # Extract symbol from the set file name
+            symbol = extract_symbol_from_set_filename(SET_FILE_NAME)
+            if not symbol:
+                print(f"Could not extract symbol from set file '{set_file}'. Skipping.")
+                continue
 
-#             print(f"Extracted symbol '{symbol}' from set file.")
+            print(f"Extracted symbol '{symbol}' from set file.")
 
-#             # Copy the .set file using shutil.copy for reliability
-#             src_set_file = os.path.join(SET_FILES_FOLDER, set_file)
-#             dest_set_file = os.path.join(MT5_PROFILES_TESTER, set_file)
-#             try:
-#                 shutil.copy(src_set_file, dest_set_file)
-#                 print(f"Copied '{set_file}' to '{MT5_PROFILES_TESTER}'")
-#             except Exception as e:
-#                 print(f"Failed to copy '{set_file}': {e}")
-#                 messagebox.showerror("Error", f"Failed to copy '{set_file}': {e}")
-#                 continue  # Proceed to the next .set file
+            # Copy the .set file using shutil.copy for reliability
+            src_set_file = os.path.join(SET_FILES_FOLDER, set_file)
+            dest_set_file = os.path.join(MT5_PROFILES_TESTER, set_file)
+            try:
+                shutil.copy(src_set_file, dest_set_file)
+                print(f"Copied '{set_file}' to '{MT5_PROFILES_TESTER}'")
+            except Exception as e:
+                print(f"Failed to copy '{set_file}': {e}")
+                messagebox.showerror("Error", f"Failed to copy '{set_file}': {e}")
+                continue  # Proceed to the next .set file
 
-#             # Generate the .ini file
-#             INI_FILE = os.path.join(MT5_DATA_FOLDER, f"temp_{SET_FILE_NAME}.ini")
-#             report_filename = SET_FILE_NAME  # Do not add any extension
-#             # Report path relative to MT5_DATA_FOLDER
-#             report_path_relative = os.path.join(CUSTOM_REPORT_FOLDER_BASE, CUSTOM_REPORT_FOLDER_NAME, report_filename)
-#             # Ensure backslashes are correctly formatted
-#             report_path_relative = report_path_relative.replace('/', '\\')
+            # Generate the .ini file
+            INI_FILE = os.path.join(MT5_DATA_FOLDER, f"temp_{SET_FILE_NAME}.ini")
+            report_filename = SET_FILE_NAME  # Do not add any extension
+            # Report path relative to MT5_DATA_FOLDER
+            report_path_relative = os.path.join(CUSTOM_REPORT_FOLDER_BASE, CUSTOM_REPORT_FOLDER_NAME, report_filename)
+            # Ensure backslashes are correctly formatted
+            report_path_relative = report_path_relative.replace('/', '\\')
 
-#             with open(INI_FILE, 'w') as ini_file:
-#                 ini_file.write("; start strategy tester\n")
-#                 ini_file.write("[Tester]\n")
-#                 ini_file.write(f"Expert={EXPERT_ADVISOR}\n")
-#                 ini_file.write(f"ExpertParameters={set_file}\n")
-#                 ini_file.write(f"Symbol={symbol}\n")
-#                 ini_file.write(f"Period={PERIOD}\n")
-#                 ini_file.write(f"Model={MODEL}\n")
-#                 ini_file.write(f"ExecutionMode={EXECUTION_MODE}\n")
-#                 ini_file.write(f"Optimization={OPTIMIZATION}\n")
-#                 ini_file.write(f"OptimizationCriterion={OPTIMIZATION_CRITERION}\n")
-#                 ini_file.write(f"ForwardMode={FORWARD_MODE}\n")
-#                 ini_file.write(f"ForwardDate={FORWARD_DATE}\n")
-#                 ini_file.write("DateEnable=true\n")
-#                 ini_file.write(f"FromDate={FROM_DATE}\n")
-#                 ini_file.write(f"ToDate={TO_DATE}\n")
-#                 # Use relative report path, without quotes
-#                 ini_file.write(f"Report={report_path_relative}\n")
-#                 ini_file.write("ReplaceReport=true\n")
-#                 ini_file.write(f"Deposit={DEPOSIT}\n")
-#                 ini_file.write(f"Leverage={LEVERAGE}\n")
-#                 # Do not specify ReportFormat
+            with open(INI_FILE, 'w') as ini_file:
+                ini_file.write("; start strategy tester\n")
+                ini_file.write("[Tester]\n")
+                ini_file.write(f"Expert={EXPERT_ADVISOR}\n")
+                ini_file.write(f"ExpertParameters={set_file}\n")
+                ini_file.write(f"Symbol={symbol}\n")
+                ini_file.write(f"Period={PERIOD}\n")
+                ini_file.write(f"Model={MODEL}\n")
+                ini_file.write(f"ExecutionMode={EXECUTION_MODE}\n")
+                ini_file.write(f"Optimization={OPTIMIZATION}\n")
+                ini_file.write(f"OptimizationCriterion={OPTIMIZATION_CRITERION}\n")
+                ini_file.write(f"ForwardMode={FORWARD_MODE}\n")
+                ini_file.write(f"ForwardDate={FORWARD_DATE}\n")
+                ini_file.write("DateEnable=true\n")
+                ini_file.write(f"FromDate={FROM_DATE}\n")
+                ini_file.write(f"ToDate={TO_DATE}\n")
+                # Use relative report path, without quotes
+                ini_file.write(f"Report={report_path_relative}\n")
+                ini_file.write("ReplaceReport=true\n")
+                ini_file.write(f"Deposit={DEPOSIT}\n")
+                ini_file.write(f"Leverage={LEVERAGE}\n")
+                # Do not specify ReportFormat
 
-#             print(f"Generated .ini file at '{INI_FILE}' with Report path '{report_path_relative}'")
+            print(f"Generated .ini file at '{INI_FILE}' with Report path '{report_path_relative}'")
 
-#             # Ensure MT5 is not running
-#             print("Ensuring no previous MT5 instances are running...")
-#             for proc in psutil.process_iter(['name']):
-#                 if proc.info['name'] and proc.info['name'].lower() == 'terminal64.exe':
-#                     proc.kill()
-#                     print(f"Killed process {proc.pid} ({proc.info['name']})")
-#             print("Waiting for MT5 to fully close...")
-#             time.sleep(5)
+            # Ensure MT5 is not running
+            print("Ensuring no previous MT5 instances are running...")
+            for proc in psutil.process_iter(['name']):
+                if proc.info['name'] and proc.info['name'].lower() == 'terminal64.exe':
+                    proc.kill()
+                    print(f"Killed process {proc.pid} ({proc.info['name']})")
+            print("Waiting for MT5 to fully close...")
+            time.sleep(5)
 
-#             if stop_event.is_set():
-#                 print("Backtesting stopped by user.")
-#                 messagebox.showinfo("Stopped", "Backtesting stopped by user.")
-#                 # Re-enable the Start Test button and disable Stop Test button
-#                 start_button.config(state=tk.NORMAL)
-#                 stop_button.config(state=tk.DISABLED)
-#                 return
+            if stop_event.is_set():
+                print("Backtesting stopped by user.")
+                messagebox.showinfo("Stopped", "Backtesting stopped by user.")
+                # Re-enable the Start Test button and disable Stop Test button
+                start_button.config(state=tk.NORMAL)
+                stop_button.config(state=tk.DISABLED)
+                return
 
-#             # Start MT5
-#             print(f"Starting MT5 with config '{INI_FILE}'")
-#             try:
-#                 mt5_process = subprocess.Popen([MT5_PATH, f"/config:{INI_FILE}"])
-#                 print(f"Started MT5 process with PID {mt5_process.pid}")
-#             except Exception as e:
-#                 print(f"Failed to start MT5: {e}")
-#                 messagebox.showerror("Error", f"Failed to start MT5: {e}")
-#                 continue  # Proceed to the next .set file
+            # Start MT5
+            print(f"Starting MT5 with config '{INI_FILE}'")
+            try:
+                mt5_process = subprocess.Popen([MT5_PATH, f"/config:{INI_FILE}"])
+                print(f"Started MT5 process with PID {mt5_process.pid}")
+            except Exception as e:
+                print(f"Failed to start MT5: {e}")
+                messagebox.showerror("Error", f"Failed to start MT5: {e}")
+                continue  # Proceed to the next .set file
 
-#             # Wait for any file to be created in the report folder
-#             max_wait_seconds = 7200  # 2 hours
-#             wait_counter = 0
-#             report_exists = False
-#             print("Waiting for report file to be created...")
+            # Wait for any file to be created in the report folder
+            max_wait_seconds = 7200  # 2 hours
+            wait_counter = 0
+            report_exists = False
+            print("Waiting for report file to be created...")
 
-#             # Full path to the report folder
-#             report_folder_full_path = os.path.join(MT5_DATA_FOLDER, os.path.dirname(report_path_relative))
+            # Full path to the report folder
+            report_folder_full_path = os.path.join(MT5_DATA_FOLDER, os.path.dirname(report_path_relative))
 
-#             # Initial list of files in the report folder
-#             initial_files = set(os.listdir(report_folder_full_path))
+            # Initial list of files in the report folder
+            initial_files = set(os.listdir(report_folder_full_path))
 
-#             while wait_counter < max_wait_seconds:
-#                 if stop_event.is_set():
-#                     print("Backtesting stopped by user.")
-#                     mt5_process.kill()
-#                     messagebox.showinfo("Stopped", "Backtesting stopped by user.")
-#                     # Re-enable the Start Test button and disable Stop Test button
-#                     start_button.config(state=tk.NORMAL)
-#                     stop_button.config(state=tk.DISABLED)
-#                     return
+            while wait_counter < max_wait_seconds:
+                if stop_event.is_set():
+                    print("Backtesting stopped by user.")
+                    mt5_process.kill()
+                    messagebox.showinfo("Stopped", "Backtesting stopped by user.")
+                    # Re-enable the Start Test button and disable Stop Test button
+                    start_button.config(state=tk.NORMAL)
+                    stop_button.config(state=tk.DISABLED)
+                    return
 
-#                 # Get the current list of files
-#                 current_files = set(os.listdir(report_folder_full_path))
-#                 # Check for new files
-#                 new_files = current_files - initial_files
-#                 if new_files:
-#                     report_exists = True
-#                     print(f"Report file(s) created: {new_files}")
-#                     break
+                # Get the current list of files
+                current_files = set(os.listdir(report_folder_full_path))
+                # Check for new files
+                new_files = current_files - initial_files
+                if new_files:
+                    report_exists = True
+                    print(f"Report file(s) created: {new_files}")
+                    break
 
-#                 time.sleep(5)
-#                 wait_counter += 5
-#                 print(f"Waited {wait_counter} seconds for report file to be created...")
+                time.sleep(5)
+                wait_counter += 5
+                print(f"Waited {wait_counter} seconds for report file to be created...")
 
-#             if not report_exists:
-#                 print("Report file was not created within expected time. Forcing MT5 to close...")
-#                 mt5_process.kill()
-#                 messagebox.showerror("Error", f"Report file was not created for '{set_file}'.")
-#                 continue  # Proceed to the next .set file
+            if not report_exists:
+                print("Report file was not created within expected time. Forcing MT5 to close...")
+                mt5_process.kill()
+                messagebox.showerror("Error", f"Report file was not created for '{set_file}'.")
+                continue  # Proceed to the next .set file
 
-#             # Close MT5
-#             print("Closing MT5...")
-#             mt5_process.kill()
-#             print("MT5 closed.")
+            # Close MT5
+            print("Closing MT5...")
+            mt5_process.kill()
+            print("MT5 closed.")
 
-#             # Delete the .ini file
-#             if os.path.exists(INI_FILE):
-#                 os.remove(INI_FILE)
-#                 print(f"Deleted temporary .ini file '{INI_FILE}'")
+            # Delete the .ini file
+            if os.path.exists(INI_FILE):
+                os.remove(INI_FILE)
+                print(f"Deleted temporary .ini file '{INI_FILE}'")
 
-#             # Update progress bar
-#             current_progress += progress_step
-#             progress_var.set(current_progress)
+            # Update progress bar
+            current_progress += progress_step
+            progress_var.set(current_progress)
 
-#             # Wait before starting the next test
-#             print("Waiting before starting the next test...")
-#             time.sleep(5)
+            # Wait before starting the next test
+            print("Waiting before starting the next test...")
+            time.sleep(5)
 
-#         # After all backtests are done
-#         if not stop_event.is_set():
-#             print("All backtests are completed.")
-#             progress_var.set(100)
-#             messagebox.showinfo("Success", f"Testing completed!\nReports are saved in:\n{CUSTOM_REPORT_FOLDER_FULL}")
-#             # Re-enable the Start Test button and disable Stop Test button
-#             start_button.config(state=tk.NORMAL)
-#             stop_button.config(state=tk.DISABLED)
+        # After all backtests are done
+        if not stop_event.is_set():
+            print("All backtests are completed.")
+            progress_var.set(100)
+            messagebox.showinfo("Success", f"Testing completed!\nReports are saved in:\n{CUSTOM_REPORT_FOLDER_FULL}")
+            # Re-enable the Start Test button and disable Stop Test button
+            start_button.config(state=tk.NORMAL)
+            stop_button.config(state=tk.DISABLED)
 
-#     except Exception as e:
-#         print(f"An unexpected error occurred: {e}")
-#         messagebox.showerror("Error", f"An unexpected error occurred: {e}")
-#         # Re-enable the Start Test button and disable Stop Test button
-#         start_button.config(state=tk.NORMAL)
-#         stop_button.config(state=tk.DISABLED)
-#         return
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+        messagebox.showerror("Error", f"An unexpected error occurred: {e}")
+        # Re-enable the Start Test button and disable Stop Test button
+        start_button.config(state=tk.NORMAL)
+        stop_button.config(state=tk.DISABLED)
+        return
 
 
 # ---------------------------------
@@ -3685,11 +3707,11 @@ def create_gui():
     root.geometry("800x600+0+0")
 
     # Menus for Creator OOS Generator and Backtester
-    # creator_menu = tk.Menu(menu_bar, tearoff=0)
-    # menu_bar.add_cascade(label="Creator OOS Generator", menu=creator_menu)
+    creator_menu = tk.Menu(menu_bar, tearoff=0)
+    menu_bar.add_cascade(label="Creator OOS Generator", menu=creator_menu)
 
-    # backtester_menu = tk.Menu(menu_bar, tearoff=0)
-    # menu_bar.add_cascade(label="Backtester", menu=backtester_menu)
+    backtester_menu = tk.Menu(menu_bar, tearoff=0)
+    menu_bar.add_cascade(label="Backtester", menu=backtester_menu)
 
     full_automation_menu = tk.Menu(menu_bar, tearoff=0)
     menu_bar.add_cascade(label="Full Automation", menu=full_automation_menu)
@@ -3697,8 +3719,8 @@ def create_gui():
     # DDAnalyzer_menu = tk.Menu(menu_bar, tearoff=0)
     # menu_bar.add_cascade(label="DDAnalyzer", menu=DDAnalyzer_menu)
 
-    # CreatorXML_menu = tk.Menu(menu_bar, tearoff=0)
-    # menu_bar.add_cascade(label="CreatorXML", menu=CreatorXML_menu)
+    CreatorXML_menu = tk.Menu(menu_bar, tearoff=0)
+    menu_bar.add_cascade(label="CreatorXML", menu=CreatorXML_menu)
 
     # Placeholder functions for saving settings (to be defined later)
 
@@ -3760,10 +3782,10 @@ def create_gui():
         return scrollable_frame
 
     # Create scrollable frames for each tab
-    #creator_frame = create_scrollable_frame(notebook, "Creator OOS Generator")
-    #backtester_frame = create_scrollable_frame(notebook, "Backtester")
+    creator_frame = create_scrollable_frame(notebook, "Creator OOS Generator")
+    backtester_frame = create_scrollable_frame(notebook, "Backtester")
     full_automation_frame = create_scrollable_frame(notebook, "Full Automation")
-    #creatorxml_frame = create_scrollable_frame(notebook, "CreatorXML")
+    creatorxml_frame = create_scrollable_frame(notebook, "CreatorXML")
 
     # Variables specific to Creator OOS Generator
     mt5_path_var_creator = tk.StringVar(value=r"C:\Program Files\MetaTrader 5\terminal64.exe")
@@ -4031,96 +4053,96 @@ def create_gui():
             pass
 
     # Add "Save as Default" options to the menus
-    # creator_menu.add_command(label="Save as Default", command=save_creator_settings)
-    # backtester_menu.add_command(label="Save as Default", command=save_backtester_settings)
+    creator_menu.add_command(label="Save as Default", command=save_creator_settings)
+    backtester_menu.add_command(label="Save as Default", command=save_backtester_settings)
 
     # Functions to start and stop the process for Creator OOS Generator
-    # def start_process_creator():
-    #     # Disable the Start Test button and enable Stop Test button
-    #     start_button_creator.config(state=tk.DISABLED)
-    #     stop_button_creator.config(state=tk.NORMAL)
+    def start_process_creator():
+        # Disable the Start Test button and enable Stop Test button
+        start_button_creator.config(state=tk.DISABLED)
+        stop_button_creator.config(state=tk.NORMAL)
 
-    #     # Collect parameters from the GUI inputs
-    #     params = {
-    #         'MT5_PATH': mt5_path_var_creator.get(),
-    #         'MT5_DATA_FOLDER': mt5_data_folder_var_creator.get(),
-    #         'SET_FILES_FOLDER': set_files_folder_var_creator.get(),
-    #         'CUSTOM_REPORT_FOLDER_BASE': custom_report_folder_base_var_creator.get(),
-    #         'FROM_DATE': from_date_var_creator.get(),
-    #         'TO_DATE': to_date_var_creator.get(),
-    #         'DEPOSIT': deposit_var_creator.get(),
-    #         'LEVERAGE': leverage_var_creator.get(),
-    #         'PERIOD': period_var_creator.get(),
-    #         'EXPERT_ADVISOR': expert_advisor_var_creator.get(),
-    #         'EXECUTION_MODE': execution_mode_var_creator.get(),
-    #         'MODEL': model_var_creator.get()
-    #     }
+        # Collect parameters from the GUI inputs
+        params = {
+            'MT5_PATH': mt5_path_var_creator.get(),
+            'MT5_DATA_FOLDER': mt5_data_folder_var_creator.get(),
+            'SET_FILES_FOLDER': set_files_folder_var_creator.get(),
+            'CUSTOM_REPORT_FOLDER_BASE': custom_report_folder_base_var_creator.get(),
+            'FROM_DATE': from_date_var_creator.get(),
+            'TO_DATE': to_date_var_creator.get(),
+            'DEPOSIT': deposit_var_creator.get(),
+            'LEVERAGE': leverage_var_creator.get(),
+            'PERIOD': period_var_creator.get(),
+            'EXPERT_ADVISOR': expert_advisor_var_creator.get(),
+            'EXECUTION_MODE': execution_mode_var_creator.get(),
+            'MODEL': model_var_creator.get()
+        }
 
-    #     # Initialize stop event
-    #     global stop_event_creator
-    #     stop_event_creator = Event()
+        # Initialize stop event
+        global stop_event_creator
+        stop_event_creator = Event()
 
-    #     # Get total number of set files for progress bar
-    #     set_files = [f for f in os.listdir(params['SET_FILES_FOLDER']) if f.endswith('.set')]
-    #     total_set_files = len(set_files)
+        # Get total number of set files for progress bar
+        set_files = [f for f in os.listdir(params['SET_FILES_FOLDER']) if f.endswith('.set')]
+        total_set_files = len(set_files)
 
-    #     # Start the process in a separate thread to keep the GUI responsive
-    #     Thread(target=run_creator_oos_generator, args=(params, stop_event_creator, progress_var_creator, total_set_files, start_button_creator, stop_button_creator), daemon=True).start()
+        # Start the process in a separate thread to keep the GUI responsive
+        Thread(target=run_creator_oos_generator, args=(params, stop_event_creator, progress_var_creator, total_set_files, start_button_creator, stop_button_creator), daemon=True).start()
 
-    # def stop_process_creator():
-    #     # Set the stop event to signal the thread to stop
-    #     stop_event_creator.set()
-    #     print("Stop event set.")
-    #     # Re-enable the Start Test button and disable Stop Test button
-    #     start_button_creator.config(state=tk.NORMAL)
-    #     stop_button_creator.config(state=tk.DISABLED)
-    #     messagebox.showinfo("Stopped", "The backtesting process has been stopped.")
+    def stop_process_creator():
+        # Set the stop event to signal the thread to stop
+        stop_event_creator.set()
+        print("Stop event set.")
+        # Re-enable the Start Test button and disable Stop Test button
+        start_button_creator.config(state=tk.NORMAL)
+        stop_button_creator.config(state=tk.DISABLED)
+        messagebox.showinfo("Stopped", "The backtesting process has been stopped.")
 
     # Functions to start and stop the process for Backtester
-    # def start_process_backtester():
-    #     # Disable the Start Test button and enable Stop Test button
-    #     start_button_backtester.config(state=tk.DISABLED)
-    #     stop_button_backtester.config(state=tk.NORMAL)
+    def start_process_backtester():
+        # Disable the Start Test button and enable Stop Test button
+        start_button_backtester.config(state=tk.DISABLED)
+        stop_button_backtester.config(state=tk.NORMAL)
 
-    #     # Collect parameters from the GUI inputs
-    #     params = {
-    #         'MT5_PATH': mt5_path_var_backtester.get(),
-    #         'MT5_DATA_FOLDER': mt5_data_folder_var_backtester.get(),
-    #         'SET_FILES_FOLDER': set_files_folder_var_backtester.get(),
-    #         'CUSTOM_REPORT_FOLDER_BASE': custom_report_folder_base_var_backtester.get(),
-    #         'FROM_DATE': from_date_var_backtester.get(),
-    #         'TO_DATE': to_date_var_backtester.get(),
-    #         'FORWARD_DATE': forward_date_var_backtester.get(),
-    #         'DEPOSIT': deposit_var_backtester.get(),
-    #         'LEVERAGE': leverage_var_backtester.get(),
-    #         'PERIOD': period_var_backtester.get(),
-    #         'EXPERT_ADVISOR': expert_advisor_var_backtester.get(),
-    #         'EXECUTION_MODE': execution_mode_var_backtester.get(),
-    #         'MODEL': model_var_backtester.get(),
-    #         'OPTIMIZATION': extract_code(optimization_var_backtester.get()),
-    #         'FORWARD_MODE': extract_code(forward_mode_var_backtester.get()),
-    #         'OPTIMIZATION_CRITERION': extract_code(optimization_criterion_var_backtester.get())
-    #     }
+        # Collect parameters from the GUI inputs
+        params = {
+            'MT5_PATH': mt5_path_var_backtester.get(),
+            'MT5_DATA_FOLDER': mt5_data_folder_var_backtester.get(),
+            'SET_FILES_FOLDER': set_files_folder_var_backtester.get(),
+            'CUSTOM_REPORT_FOLDER_BASE': custom_report_folder_base_var_backtester.get(),
+            'FROM_DATE': from_date_var_backtester.get(),
+            'TO_DATE': to_date_var_backtester.get(),
+            'FORWARD_DATE': forward_date_var_backtester.get(),
+            'DEPOSIT': deposit_var_backtester.get(),
+            'LEVERAGE': leverage_var_backtester.get(),
+            'PERIOD': period_var_backtester.get(),
+            'EXPERT_ADVISOR': expert_advisor_var_backtester.get(),
+            'EXECUTION_MODE': execution_mode_var_backtester.get(),
+            'MODEL': model_var_backtester.get(),
+            'OPTIMIZATION': extract_code(optimization_var_backtester.get()),
+            'FORWARD_MODE': extract_code(forward_mode_var_backtester.get()),
+            'OPTIMIZATION_CRITERION': extract_code(optimization_criterion_var_backtester.get())
+        }
 
-    #     # Initialize stop event
-    #     global stop_event_backtester
-    #     stop_event_backtester = Event()
+        # Initialize stop event
+        global stop_event_backtester
+        stop_event_backtester = Event()
 
-    #     # Get total number of set files for progress bar
-    #     set_files = [f for f in os.listdir(params['SET_FILES_FOLDER']) if f.endswith('.set')]
-    #     total_set_files = len(set_files)
+        # Get total number of set files for progress bar
+        set_files = [f for f in os.listdir(params['SET_FILES_FOLDER']) if f.endswith('.set')]
+        total_set_files = len(set_files)
 
-    #     # Start the process in a separate thread to keep the GUI responsive
-    #     Thread(target=run_backtester, args=(params, stop_event_backtester, progress_var_backtester, total_set_files, start_button_backtester, stop_button_backtester), daemon=True).start()
+        # Start the process in a separate thread to keep the GUI responsive
+        Thread(target=run_backtester, args=(params, stop_event_backtester, progress_var_backtester, total_set_files, start_button_backtester, stop_button_backtester), daemon=True).start()
 
-    # def stop_process_backtester():
-    #     # Set the stop event to signal the thread to stop
-    #     stop_event_backtester.set()
-    #     print("Stop event set.")
-    #     # Re-enable the Start Test button and disable Stop Test button
-    #     start_button_backtester.config(state=tk.NORMAL)
-    #     stop_button_backtester.config(state=tk.DISABLED)
-    #     messagebox.showinfo("Stopped", "The backtesting process has been stopped.")
+    def stop_process_backtester():
+        # Set the stop event to signal the thread to stop
+        stop_event_backtester.set()
+        print("Stop event set.")
+        # Re-enable the Start Test button and disable Stop Test button
+        start_button_backtester.config(state=tk.NORMAL)
+        stop_button_backtester.config(state=tk.DISABLED)
+        messagebox.showinfo("Stopped", "The backtesting process has been stopped.")
 
 
     # Functions to start and stop the process for full auto
@@ -4203,206 +4225,206 @@ def create_gui():
         messagebox.showinfo("Stopped", "The backtesting process has been stopped.")
 
     # Layout for Creator OOS Generator Tab
-    #row = 0
+    row = 0
 
     # Inputs for Creator OOS Generator
-    # tk.Label(creator_frame, text="MT5 Terminal Path:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(creator_frame, textvariable=mt5_path_var_creator, width=50).grid(row=row, column=1, padx=5, pady=5)
-    # tk.Button(creator_frame, text="Browse", command=browse_mt5_path_creator).grid(row=row, column=2, padx=5, pady=5)
-    # row += 1
+    tk.Label(creator_frame, text="MT5 Terminal Path:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    tk.Entry(creator_frame, textvariable=mt5_path_var_creator, width=50).grid(row=row, column=1, padx=5, pady=5)
+    tk.Button(creator_frame, text="Browse", command=browse_mt5_path_creator).grid(row=row, column=2, padx=5, pady=5)
+    row += 1
 
-    # tk.Label(creator_frame, text="MT5 Data Folder:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(creator_frame, textvariable=mt5_data_folder_var_creator, width=50).grid(row=row, column=1, padx=5, pady=5)
-    # tk.Button(creator_frame, text="Browse", command=browse_mt5_data_folder_creator).grid(row=row, column=2, padx=5, pady=5)
-    # row += 1
+    tk.Label(creator_frame, text="MT5 Data Folder:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    tk.Entry(creator_frame, textvariable=mt5_data_folder_var_creator, width=50).grid(row=row, column=1, padx=5, pady=5)
+    tk.Button(creator_frame, text="Browse", command=browse_mt5_data_folder_creator).grid(row=row, column=2, padx=5, pady=5)
+    row += 1
 
-    # tk.Label(creator_frame, text="Set Files Folder:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(creator_frame, textvariable=set_files_folder_var_creator, width=50).grid(row=row, column=1, padx=5, pady=5)
-    # tk.Button(creator_frame, text="Browse", command=browse_set_files_folder_creator).grid(row=row, column=2, padx=5, pady=5)
-    # row += 1
+    tk.Label(creator_frame, text="Set Files Folder:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    tk.Entry(creator_frame, textvariable=set_files_folder_var_creator, width=50).grid(row=row, column=1, padx=5, pady=5)
+    tk.Button(creator_frame, text="Browse", command=browse_set_files_folder_creator).grid(row=row, column=2, padx=5, pady=5)
+    row += 1
 
-    # tk.Label(creator_frame, text="Custom Report Folder Base Name:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(creator_frame, textvariable=custom_report_folder_base_var_creator, width=50).grid(row=row, column=1, padx=5, pady=5)
-    # row += 1
+    tk.Label(creator_frame, text="Custom Report Folder Base Name:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    tk.Entry(creator_frame, textvariable=custom_report_folder_base_var_creator, width=50).grid(row=row, column=1, padx=5, pady=5)
+    row += 1
 
-    # tk.Label(creator_frame, text="From Date (YYYY.MM.DD):").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(creator_frame, textvariable=from_date_var_creator).grid(row=row, column=1, padx=5, pady=5)
-    # row += 1
+    tk.Label(creator_frame, text="From Date (YYYY.MM.DD):").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    tk.Entry(creator_frame, textvariable=from_date_var_creator).grid(row=row, column=1, padx=5, pady=5)
+    row += 1
 
-    # tk.Label(creator_frame, text="To Date (YYYY.MM.DD):").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(creator_frame, textvariable=to_date_var_creator).grid(row=row, column=1, padx=5, pady=5)
-    # row += 1
+    tk.Label(creator_frame, text="To Date (YYYY.MM.DD):").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    tk.Entry(creator_frame, textvariable=to_date_var_creator).grid(row=row, column=1, padx=5, pady=5)
+    row += 1
 
-    # tk.Label(creator_frame, text="Deposit:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(creator_frame, textvariable=deposit_var_creator).grid(row=row, column=1, padx=5, pady=5)
-    # row += 1
+    tk.Label(creator_frame, text="Deposit:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    tk.Entry(creator_frame, textvariable=deposit_var_creator).grid(row=row, column=1, padx=5, pady=5)
+    row += 1
 
-    # tk.Label(creator_frame, text="Leverage:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(creator_frame, textvariable=leverage_var_creator).grid(row=row, column=1, padx=5, pady=5)
-    # row += 1
+    tk.Label(creator_frame, text="Leverage:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    tk.Entry(creator_frame, textvariable=leverage_var_creator).grid(row=row, column=1, padx=5, pady=5)
+    row += 1
 
-    # tk.Label(creator_frame, text="Period:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(creator_frame, textvariable=period_var_creator).grid(row=row, column=1, padx=5, pady=5)
-    # row += 1
+    tk.Label(creator_frame, text="Period:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    tk.Entry(creator_frame, textvariable=period_var_creator).grid(row=row, column=1, padx=5, pady=5)
+    row += 1
 
-    # tk.Label(creator_frame, text="Model (1= 1M OHCL, 4=ETWRT):").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(creator_frame, textvariable=model_var_creator).grid(row=row, column=1, padx=5, pady=5)
-    # row += 1
+    tk.Label(creator_frame, text="Model (1= 1M OHCL, 4=ETWRT):").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    tk.Entry(creator_frame, textvariable=model_var_creator).grid(row=row, column=1, padx=5, pady=5)
+    row += 1
 
-    # tk.Label(creator_frame, text="Execution Mode:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(creator_frame, textvariable=execution_mode_var_creator).grid(row=row, column=1, padx=5, pady=5)
-    # row += 1
+    tk.Label(creator_frame, text="Execution Mode:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    tk.Entry(creator_frame, textvariable=execution_mode_var_creator).grid(row=row, column=1, padx=5, pady=5)
+    row += 1
 
-    # tk.Label(creator_frame, text="Expert Advisor File Name:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(creator_frame, textvariable=expert_advisor_var_creator, width=50).grid(row=row, column=1, padx=5, pady=5)
-    # tk.Button(creator_frame, text="Browse", command=browse_expert_advisor_creator).grid(row=row, column=2, padx=5, pady=5)
-    # row += 1
+    tk.Label(creator_frame, text="Expert Advisor File Name:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    tk.Entry(creator_frame, textvariable=expert_advisor_var_creator, width=50).grid(row=row, column=1, padx=5, pady=5)
+    tk.Button(creator_frame, text="Browse", command=browse_expert_advisor_creator).grid(row=row, column=2, padx=5, pady=5)
+    row += 1
 
-    # # Progress bar
-    # progress_var_creator = tk.DoubleVar()
-    # progress_bar_creator = ttk.Progressbar(creator_frame, variable=progress_var_creator, maximum=100, length=400)
-    # progress_bar_creator.grid(row=row, column=0, columnspan=3, sticky='we', padx=5, pady=10)
-    # row += 1
+    # Progress bar
+    progress_var_creator = tk.DoubleVar()
+    progress_bar_creator = ttk.Progressbar(creator_frame, variable=progress_var_creator, maximum=100, length=400)
+    progress_bar_creator.grid(row=row, column=0, columnspan=3, sticky='we', padx=5, pady=10)
+    row += 1
 
     # Start and Stop buttons
-    # global start_button_creator, stop_button_creator
-    # start_button_creator = tk.Button(creator_frame, text="Start Test", command=start_process_creator, width=15, bg="green", fg="white")
-    # start_button_creator.grid(row=row, column=1, pady=10, sticky='e')
+    global start_button_creator, stop_button_creator
+    start_button_creator = tk.Button(creator_frame, text="Start Test", command=start_process_creator, width=15, bg="green", fg="white")
+    start_button_creator.grid(row=row, column=1, pady=10, sticky='e')
 
-    # stop_button_creator = tk.Button(creator_frame, text="Stop Test", command=stop_process_creator, state=tk.DISABLED, width=15, bg="red", fg="white")
-    # stop_button_creator.grid(row=row, column=2, pady=10, sticky='w')
-    # row += 1
+    stop_button_creator = tk.Button(creator_frame, text="Stop Test", command=stop_process_creator, state=tk.DISABLED, width=15, bg="red", fg="white")
+    stop_button_creator.grid(row=row, column=2, pady=10, sticky='w')
+    row += 1
 
     # Layout for Backtester Tab
     row = 0
 
     # Inputs for Backtester
-    # tk.Label(backtester_frame, text="MT5 Terminal Path:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(backtester_frame, textvariable=mt5_path_var_backtester, width=50).grid(row=row, column=1, padx=5, pady=5)
-    # tk.Button(backtester_frame, text="Browse", command=browse_mt5_path_backtester).grid(row=row, column=2, padx=5, pady=5)
-    # row += 1
+    tk.Label(backtester_frame, text="MT5 Terminal Path:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    tk.Entry(backtester_frame, textvariable=mt5_path_var_backtester, width=50).grid(row=row, column=1, padx=5, pady=5)
+    tk.Button(backtester_frame, text="Browse", command=browse_mt5_path_backtester).grid(row=row, column=2, padx=5, pady=5)
+    row += 1
 
-    # tk.Label(backtester_frame, text="MT5 Data Folder:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(backtester_frame, textvariable=mt5_data_folder_var_backtester, width=50).grid(row=row, column=1, padx=5, pady=5)
-    # tk.Button(backtester_frame, text="Browse", command=browse_mt5_data_folder_backtester).grid(row=row, column=2, padx=5, pady=5)
-    # row += 1
+    tk.Label(backtester_frame, text="MT5 Data Folder:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    tk.Entry(backtester_frame, textvariable=mt5_data_folder_var_backtester, width=50).grid(row=row, column=1, padx=5, pady=5)
+    tk.Button(backtester_frame, text="Browse", command=browse_mt5_data_folder_backtester).grid(row=row, column=2, padx=5, pady=5)
+    row += 1
 
-    # tk.Label(backtester_frame, text="Set Files Folder:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(backtester_frame, textvariable=set_files_folder_var_backtester, width=50).grid(row=row, column=1, padx=5, pady=5)
-    # tk.Button(backtester_frame, text="Browse", command=browse_set_files_folder_backtester).grid(row=row, column=2, padx=5, pady=5)
-    # row += 1
+    tk.Label(backtester_frame, text="Set Files Folder:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    tk.Entry(backtester_frame, textvariable=set_files_folder_var_backtester, width=50).grid(row=row, column=1, padx=5, pady=5)
+    tk.Button(backtester_frame, text="Browse", command=browse_set_files_folder_backtester).grid(row=row, column=2, padx=5, pady=5)
+    row += 1
 
-    # tk.Label(backtester_frame, text="Custom Report Folder Base Name:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(backtester_frame, textvariable=custom_report_folder_base_var_backtester, width=50).grid(row=row, column=1, padx=5, pady=5)
-    # row += 1
+    tk.Label(backtester_frame, text="Custom Report Folder Base Name:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    tk.Entry(backtester_frame, textvariable=custom_report_folder_base_var_backtester, width=50).grid(row=row, column=1, padx=5, pady=5)
+    row += 1
 
-    # tk.Label(backtester_frame, text="From Date (YYYY.MM.DD):").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(backtester_frame, textvariable=from_date_var_backtester).grid(row=row, column=1, padx=5, pady=5)
-    # row += 1
+    tk.Label(backtester_frame, text="From Date (YYYY.MM.DD):").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    tk.Entry(backtester_frame, textvariable=from_date_var_backtester).grid(row=row, column=1, padx=5, pady=5)
+    row += 1
 
-    # tk.Label(backtester_frame, text="To Date (YYYY.MM.DD):").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(backtester_frame, textvariable=to_date_var_backtester).grid(row=row, column=1, padx=5, pady=5)
-    # row += 1
+    tk.Label(backtester_frame, text="To Date (YYYY.MM.DD):").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    tk.Entry(backtester_frame, textvariable=to_date_var_backtester).grid(row=row, column=1, padx=5, pady=5)
+    row += 1
 
-    # tk.Label(backtester_frame, text="Forward Date (YYYY.MM.DD, leave blank if using Forward Mode):").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(backtester_frame, textvariable=forward_date_var_backtester).grid(row=row, column=1, padx=5, pady=5)
-    # row += 1
+    tk.Label(backtester_frame, text="Forward Date (YYYY.MM.DD, leave blank if using Forward Mode):").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    tk.Entry(backtester_frame, textvariable=forward_date_var_backtester).grid(row=row, column=1, padx=5, pady=5)
+    row += 1
 
-    # tk.Label(backtester_frame, text="Deposit:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(backtester_frame, textvariable=deposit_var_backtester).grid(row=row, column=1, padx=5, pady=5)
-    # row += 1
+    tk.Label(backtester_frame, text="Deposit:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    tk.Entry(backtester_frame, textvariable=deposit_var_backtester).grid(row=row, column=1, padx=5, pady=5)
+    row += 1
 
-    # tk.Label(backtester_frame, text="Leverage:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(backtester_frame, textvariable=leverage_var_backtester).grid(row=row, column=1, padx=5, pady=5)
-    # row += 1
+    tk.Label(backtester_frame, text="Leverage:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    tk.Entry(backtester_frame, textvariable=leverage_var_backtester).grid(row=row, column=1, padx=5, pady=5)
+    row += 1
 
-    # tk.Label(backtester_frame, text="Period:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(backtester_frame, textvariable=period_var_backtester).grid(row=row, column=1, padx=5, pady=5)
-    # row += 1
+    tk.Label(backtester_frame, text="Period:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    tk.Entry(backtester_frame, textvariable=period_var_backtester).grid(row=row, column=1, padx=5, pady=5)
+    row += 1
 
-    # tk.Label(backtester_frame, text="Model (1= 1M OHCL, 4=ETWRT):").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(backtester_frame, textvariable=model_var_backtester).grid(row=row, column=1, padx=5, pady=5)
-    # row += 1
+    tk.Label(backtester_frame, text="Model (1= 1M OHCL, 4=ETWRT):").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    tk.Entry(backtester_frame, textvariable=model_var_backtester).grid(row=row, column=1, padx=5, pady=5)
+    row += 1
 
-    # tk.Label(backtester_frame, text="Execution Mode:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(backtester_frame, textvariable=execution_mode_var_backtester).grid(row=row, column=1, padx=5, pady=5)
-    # row += 1
+    tk.Label(backtester_frame, text="Execution Mode:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    tk.Entry(backtester_frame, textvariable=execution_mode_var_backtester).grid(row=row, column=1, padx=5, pady=5)
+    row += 1
 
-    # # Optimization options
-    # optimization_options = [
-    #     "0 - Optimization disabled",
-    #     "1 - Slow complete algorithm",
-    #     "2 - Fast genetic based algorithm",
-    #     "3 - All symbols selected in Market Watch"
-    # ]
+    # Optimization options
+    optimization_options = [
+        "0 - Optimization disabled",
+        "1 - Slow complete algorithm",
+        "2 - Fast genetic based algorithm",
+        "3 - All symbols selected in Market Watch"
+    ]
 
-    # tk.Label(backtester_frame, text="Optimization:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # optimization_combobox = ttk.Combobox(
-    #     backtester_frame, textvariable=optimization_var_backtester,
-    #     values=optimization_options, state='readonly'
-    # )
-    # optimization_combobox.grid(row=row, column=1, padx=5, pady=5)
-    # optimization_combobox.current(0)  # Set default selection to first option
-    # row += 1
+    tk.Label(backtester_frame, text="Optimization:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    optimization_combobox = ttk.Combobox(
+        backtester_frame, textvariable=optimization_var_backtester,
+        values=optimization_options, state='readonly'
+    )
+    optimization_combobox.grid(row=row, column=1, padx=5, pady=5)
+    optimization_combobox.current(0)  # Set default selection to first option
+    row += 1
 
-    # # Forward Mode options
-    # forward_mode_options = [
-    #     "0 - Off",
-    #     "1 - 1/2 of the testing period",
-    #     "2 - 1/3 of the testing period",
-    #     "3 - 1/4 of the testing period",
-    #     "4 - Custom interval specified using ForwardDate"
-    # ]
+    # Forward Mode options
+    forward_mode_options = [
+        "0 - Off",
+        "1 - 1/2 of the testing period",
+        "2 - 1/3 of the testing period",
+        "3 - 1/4 of the testing period",
+        "4 - Custom interval specified using ForwardDate"
+    ]
 
-    # tk.Label(backtester_frame, text="Forward Mode:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # forward_mode_combobox = ttk.Combobox(
-    #     backtester_frame, textvariable=forward_mode_var_backtester,
-    #     values=forward_mode_options, state='readonly'
-    # )
-    # forward_mode_combobox.grid(row=row, column=1, padx=5, pady=5)
-    # forward_mode_combobox.current(0)
-    # row += 1
+    tk.Label(backtester_frame, text="Forward Mode:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    forward_mode_combobox = ttk.Combobox(
+        backtester_frame, textvariable=forward_mode_var_backtester,
+        values=forward_mode_options, state='readonly'
+    )
+    forward_mode_combobox.grid(row=row, column=1, padx=5, pady=5)
+    forward_mode_combobox.current(0)
+    row += 1
 
-    # # Optimization Criterion options with updated names
-    # optimization_criterion_options = [
-    #     "0 - Balance Max",
-    #     "1 - Profit Factor Max",
-    #     "2 - Expected Payoff Max",
-    #     "3 - Drawdown Min",
-    #     "4 - Recovery Factor Max",
-    #     "5 - Sharpe Ratio Max",
-    #     "6 - Custom Max",
-    #     "7 - Complex Criterion Max"
-    # ]
+    # Optimization Criterion options with updated names
+    optimization_criterion_options = [
+        "0 - Balance Max",
+        "1 - Profit Factor Max",
+        "2 - Expected Payoff Max",
+        "3 - Drawdown Min",
+        "4 - Recovery Factor Max",
+        "5 - Sharpe Ratio Max",
+        "6 - Custom Max",
+        "7 - Complex Criterion Max"
+    ]
 
-    # tk.Label(backtester_frame, text="Optimization Criterion:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # optimization_criterion_combobox = ttk.Combobox(
-    #     backtester_frame, textvariable=optimization_criterion_var_backtester,
-    #     values=optimization_criterion_options, state='readonly'
-    # )
-    # optimization_criterion_combobox.grid(row=row, column=1, padx=5, pady=5)
-    # optimization_criterion_combobox.current(0)
-    # row += 1
+    tk.Label(backtester_frame, text="Optimization Criterion:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    optimization_criterion_combobox = ttk.Combobox(
+        backtester_frame, textvariable=optimization_criterion_var_backtester,
+        values=optimization_criterion_options, state='readonly'
+    )
+    optimization_criterion_combobox.grid(row=row, column=1, padx=5, pady=5)
+    optimization_criterion_combobox.current(0)
+    row += 1
 
-    # tk.Label(backtester_frame, text="Expert Advisor File Name:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(backtester_frame, textvariable=expert_advisor_var_backtester, width=50).grid(row=row, column=1, padx=5, pady=5)
-    # tk.Button(backtester_frame, text="Browse", command=browse_expert_advisor_backtester).grid(row=row, column=2, padx=5, pady=5)
-    # row += 1
+    tk.Label(backtester_frame, text="Expert Advisor File Name:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    tk.Entry(backtester_frame, textvariable=expert_advisor_var_backtester, width=50).grid(row=row, column=1, padx=5, pady=5)
+    tk.Button(backtester_frame, text="Browse", command=browse_expert_advisor_backtester).grid(row=row, column=2, padx=5, pady=5)
+    row += 1
 
-    # # Progress bar
-    # progress_var_backtester = tk.DoubleVar()
-    # progress_bar_backtester = ttk.Progressbar(backtester_frame, variable=progress_var_backtester, maximum=100, length=400)
-    # progress_bar_backtester.grid(row=row, column=0, columnspan=3, sticky='we', padx=5, pady=10)
-    # row += 1
+    # Progress bar
+    progress_var_backtester = tk.DoubleVar()
+    progress_bar_backtester = ttk.Progressbar(backtester_frame, variable=progress_var_backtester, maximum=100, length=400)
+    progress_bar_backtester.grid(row=row, column=0, columnspan=3, sticky='we', padx=5, pady=10)
+    row += 1
 
-    # # Start and Stop buttons
-    # global start_button_backtester, stop_button_backtester
-    # start_button_backtester = tk.Button(backtester_frame, text="Start Test", command=start_process_backtester, width=15, bg="green", fg="white")
-    # start_button_backtester.grid(row=row, column=1, pady=10, sticky='e')
+    # Start and Stop buttons
+    global start_button_backtester, stop_button_backtester
+    start_button_backtester = tk.Button(backtester_frame, text="Start Test", command=start_process_backtester, width=15, bg="green", fg="white")
+    start_button_backtester.grid(row=row, column=1, pady=10, sticky='e')
 
-    # stop_button_backtester = tk.Button(backtester_frame, text="Stop Test", command=stop_process_backtester, state=tk.DISABLED, width=15, bg="red", fg="white")
-    # stop_button_backtester.grid(row=row, column=2, pady=10, sticky='w')
-    #row += 1
+    stop_button_backtester = tk.Button(backtester_frame, text="Stop Test", command=stop_process_backtester, state=tk.DISABLED, width=15, bg="red", fg="white")
+    stop_button_backtester.grid(row=row, column=2, pady=10, sticky='w')
+    row += 1
 
 
     # full auto - POl ########################

@@ -16,17 +16,17 @@ import requests  # Import requests for HTTP requests
 from PIL import Image, ImageTk  # Import PIL for better image handling
 import ctypes  # Import ctypes to set AppUserModelID
 import json  # Import json for handling JSON data
-import hashlib  # Import hashlib for generating machine fingerprint
+#import hashlib  # Import hashlib for generating machine fingerprint
 
 import subprocess
 
 
-import chardet
-from io import StringIO
-import csv
+#import chardet
+#from io import StringIO
+#import csv
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
-import locale
+#import locale
 
 from PyQt5.QtWidgets import (
     QApplication, QWidget, QVBoxLayout, QPushButton, QFileDialog,
@@ -37,10 +37,10 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtCore import Qt, QThread, pyqtSignal, QDate
 from PyQt5.QtGui import QFont, QIcon
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+#from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 
 
-from multiprocessing import Process
+#from multiprocessing import Process
 
 import numpy as np
 import math

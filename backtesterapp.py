@@ -2881,22 +2881,22 @@ def create_gui():
     execution_mode_var_creator = tk.StringVar(value="100")
 
     # Variables specific to Backtester
-    mt5_path_var_backtester = tk.StringVar(value=r"C:\Program Files\MetaTrader 5\terminal64.exe")
-    mt5_data_folder_var_backtester = tk.StringVar(value=os.path.expanduser(r"C:\Users\Admin\AppData\Roaming\MetaQuotes\Terminal\D0E8209F77C8CF37AD8BF550E51FF075"))
-    set_files_folder_var_backtester = tk.StringVar(value=os.path.join(mt5_data_folder_var_backtester.get(), r""))
-    custom_report_folder_base_var_backtester = tk.StringVar(value="custom_reports")
-    from_date_var_backtester = tk.StringVar(value="2019.01.01")
-    to_date_var_backtester = tk.StringVar(value="2020.01.01")
-    forward_date_var_backtester = tk.StringVar(value="2021.01.01")
-    deposit_var_backtester = tk.StringVar(value="100000")
-    leverage_var_backtester = tk.StringVar(value="100")
-    period_var_backtester = tk.StringVar(value="M1")
-    model_var_backtester = tk.StringVar(value="4")
-    expert_advisor_var_backtester = tk.StringVar(value="creator11-4_v03.ex5")
-    execution_mode_var_backtester = tk.StringVar(value="100")
-    optimization_var_backtester = tk.StringVar(value="0 - Optimization disabled")
-    forward_mode_var_backtester = tk.StringVar(value="0 - Off")
-    optimization_criterion_var_backtester = tk.StringVar(value="0 - Balance Max")
+    # mt5_path_var_backtester = tk.StringVar(value=r"C:\Program Files\MetaTrader 5\terminal64.exe")
+    # mt5_data_folder_var_backtester = tk.StringVar(value=os.path.expanduser(r"C:\Users\Admin\AppData\Roaming\MetaQuotes\Terminal\D0E8209F77C8CF37AD8BF550E51FF075"))
+    # set_files_folder_var_backtester = tk.StringVar(value=os.path.join(mt5_data_folder_var_backtester.get(), r""))
+    # custom_report_folder_base_var_backtester = tk.StringVar(value="custom_reports")
+    # from_date_var_backtester = tk.StringVar(value="2019.01.01")
+    # to_date_var_backtester = tk.StringVar(value="2020.01.01")
+    # forward_date_var_backtester = tk.StringVar(value="2021.01.01")
+    # deposit_var_backtester = tk.StringVar(value="100000")
+    # leverage_var_backtester = tk.StringVar(value="100")
+    # period_var_backtester = tk.StringVar(value="M1")
+    # model_var_backtester = tk.StringVar(value="4")
+    # expert_advisor_var_backtester = tk.StringVar(value="creator11-4_v03.ex5")
+    # execution_mode_var_backtester = tk.StringVar(value="100")
+    # optimization_var_backtester = tk.StringVar(value="0 - Optimization disabled")
+    # forward_mode_var_backtester = tk.StringVar(value="0 - Off")
+    # optimization_criterion_var_backtester = tk.StringVar(value="0 - Balance Max")
 
     # Variables specific to full auto
 
@@ -2985,32 +2985,32 @@ def create_gui():
             expert_advisor_var_creator.set(os.path.basename(normalized_path))
 
     # Functions to browse for paths for Backtester
-    def browse_mt5_path_backtester():
-        path = filedialog.askopenfilename(title="Select MT5 Terminal", filetypes=[("Executable Files", "*.exe")])
-        if path:
-            normalized_path = os.path.normpath(path)
-            mt5_path_var_backtester.set(normalized_path)
+    # def browse_mt5_path_backtester():
+    #     path = filedialog.askopenfilename(title="Select MT5 Terminal", filetypes=[("Executable Files", "*.exe")])
+    #     if path:
+    #         normalized_path = os.path.normpath(path)
+    #         mt5_path_var_backtester.set(normalized_path)
 
-    def browse_mt5_data_folder_backtester():
-        path = filedialog.askdirectory(title="Select MT5 Data Folder")
-        if path:
-            normalized_path = os.path.normpath(path)
-            mt5_data_folder_var_backtester.set(normalized_path)
-            # Update Set Files Folder default path based on new Data Folder
-            #set_files_folder_var_backtester.set(os.path.join(path, r"new stuff\set files"))
-            set_files_folder_var_backtester.set(os.path.normpath(os.path.join(normalized_path, r"new stuff\set files")))
+    # def browse_mt5_data_folder_backtester():
+    #     path = filedialog.askdirectory(title="Select MT5 Data Folder")
+    #     if path:
+    #         normalized_path = os.path.normpath(path)
+    #         mt5_data_folder_var_backtester.set(normalized_path)
+    #         # Update Set Files Folder default path based on new Data Folder
+    #         #set_files_folder_var_backtester.set(os.path.join(path, r"new stuff\set files"))
+    #         set_files_folder_var_backtester.set(os.path.normpath(os.path.join(normalized_path, r"new stuff\set files")))
 
-    def browse_set_files_folder_backtester():
-        path = filedialog.askdirectory(title="Select Set Files Folder")
-        if path:
-            normalized_path = os.path.normpath(path)
-            set_files_folder_var_backtester.set(normalized_path)
+    # def browse_set_files_folder_backtester():
+    #     path = filedialog.askdirectory(title="Select Set Files Folder")
+    #     if path:
+    #         normalized_path = os.path.normpath(path)
+    #         set_files_folder_var_backtester.set(normalized_path)
 
-    def browse_expert_advisor_backtester():
-        path = filedialog.askopenfilename(title="Select Expert Advisor File", filetypes=[("EA Files", "*.ex5;*.ex4")])
-        if path:
-            normalized_path = os.path.normpath(path)
-            expert_advisor_var_backtester.set(os.path.basename(normalized_path))
+    # def browse_expert_advisor_backtester():
+    #     path = filedialog.askopenfilename(title="Select Expert Advisor File", filetypes=[("EA Files", "*.ex5;*.ex4")])
+    #     if path:
+    #         normalized_path = os.path.normpath(path)
+    #         expert_advisor_var_backtester.set(os.path.basename(normalized_path))
     #
 
     # Functions to browse for paths for full_automation
@@ -3085,51 +3085,51 @@ def create_gui():
             pass
 
     # Functions to save and load settings for Backtester
-    def save_backtester_settings():
-        backtester_settings = {
-            'mt5_path': mt5_path_var_backtester.get(),
-            'mt5_data_folder': mt5_data_folder_var_backtester.get(),
-            'set_files_folder': set_files_folder_var_backtester.get(),
-            'custom_report_folder_base': custom_report_folder_base_var_backtester.get(),
-            'from_date': from_date_var_backtester.get(),
-            'to_date': to_date_var_backtester.get(),
-            'forward_date': forward_date_var_backtester.get(),
-            'deposit': deposit_var_backtester.get(),
-            'leverage': leverage_var_backtester.get(),
-            'period': period_var_backtester.get(),
-            'model': model_var_backtester.get(),
-            'execution_mode': execution_mode_var_backtester.get(),
-            'expert_advisor': expert_advisor_var_backtester.get(),
-            'optimization': optimization_var_backtester.get(),
-            'forward_mode': forward_mode_var_backtester.get(),
-            'optimization_criterion': optimization_criterion_var_backtester.get(),
-        }
-        with open('backtester_settings.json', 'w') as f:
-            json.dump(backtester_settings, f)
-        messagebox.showinfo("Settings Saved", "Backtester settings have been saved as default.")
+    # def save_backtester_settings():
+    #     backtester_settings = {
+    #         'mt5_path': mt5_path_var_backtester.get(),
+    #         'mt5_data_folder': mt5_data_folder_var_backtester.get(),
+    #         'set_files_folder': set_files_folder_var_backtester.get(),
+    #         'custom_report_folder_base': custom_report_folder_base_var_backtester.get(),
+    #         'from_date': from_date_var_backtester.get(),
+    #         'to_date': to_date_var_backtester.get(),
+    #         'forward_date': forward_date_var_backtester.get(),
+    #         'deposit': deposit_var_backtester.get(),
+    #         'leverage': leverage_var_backtester.get(),
+    #         'period': period_var_backtester.get(),
+    #         'model': model_var_backtester.get(),
+    #         'execution_mode': execution_mode_var_backtester.get(),
+    #         'expert_advisor': expert_advisor_var_backtester.get(),
+    #         'optimization': optimization_var_backtester.get(),
+    #         'forward_mode': forward_mode_var_backtester.get(),
+    #         'optimization_criterion': optimization_criterion_var_backtester.get(),
+    #     }
+    #     with open('backtester_settings.json', 'w') as f:
+    #         json.dump(backtester_settings, f)
+    #     messagebox.showinfo("Settings Saved", "Backtester settings have been saved as default.")
 
-    def load_backtester_settings():
-        try:
-            with open('backtester_settings.json', 'r') as f:
-                backtester_settings = json.load(f)
-            mt5_path_var_backtester.set(backtester_settings['mt5_path'])
-            mt5_data_folder_var_backtester.set(backtester_settings['mt5_data_folder'])
-            set_files_folder_var_backtester.set(backtester_settings['set_files_folder'])
-            custom_report_folder_base_var_backtester.set(backtester_settings['custom_report_folder_base'])
-            from_date_var_backtester.set(backtester_settings['from_date'])
-            to_date_var_backtester.set(backtester_settings['to_date'])
-            forward_date_var_backtester.set(backtester_settings['forward_date'])
-            deposit_var_backtester.set(backtester_settings['deposit'])
-            leverage_var_backtester.set(backtester_settings['leverage'])
-            period_var_backtester.set(backtester_settings['period'])
-            model_var_backtester.set(backtester_settings['model'])
-            execution_mode_var_backtester.set(backtester_settings['execution_mode'])
-            expert_advisor_var_backtester.set(backtester_settings['expert_advisor'])
-            optimization_var_backtester.set(backtester_settings['optimization'])
-            forward_mode_var_backtester.set(backtester_settings['forward_mode'])
-            optimization_criterion_var_backtester.set(backtester_settings['optimization_criterion'])
-        except FileNotFoundError:
-            pass
+    # def load_backtester_settings():
+    #     try:
+    #         with open('backtester_settings.json', 'r') as f:
+    #             backtester_settings = json.load(f)
+    #         mt5_path_var_backtester.set(backtester_settings['mt5_path'])
+    #         mt5_data_folder_var_backtester.set(backtester_settings['mt5_data_folder'])
+    #         set_files_folder_var_backtester.set(backtester_settings['set_files_folder'])
+    #         custom_report_folder_base_var_backtester.set(backtester_settings['custom_report_folder_base'])
+    #         from_date_var_backtester.set(backtester_settings['from_date'])
+    #         to_date_var_backtester.set(backtester_settings['to_date'])
+    #         forward_date_var_backtester.set(backtester_settings['forward_date'])
+    #         deposit_var_backtester.set(backtester_settings['deposit'])
+    #         leverage_var_backtester.set(backtester_settings['leverage'])
+    #         period_var_backtester.set(backtester_settings['period'])
+    #         model_var_backtester.set(backtester_settings['model'])
+    #         execution_mode_var_backtester.set(backtester_settings['execution_mode'])
+    #         expert_advisor_var_backtester.set(backtester_settings['expert_advisor'])
+    #         optimization_var_backtester.set(backtester_settings['optimization'])
+    #         forward_mode_var_backtester.set(backtester_settings['forward_mode'])
+    #         optimization_criterion_var_backtester.set(backtester_settings['optimization_criterion'])
+    #     except FileNotFoundError:
+    #         pass
 
     # Add "Save as Default" options to the menus
     # creator_menu.add_command(label="Save as Default", command=save_creator_settings)
@@ -3306,205 +3306,7 @@ def create_gui():
     # Layout for Creator OOS Generator Tab
     row = 0
 
-    # Inputs for Creator OOS Generator
-    # tk.Label(creator_frame, text="MT5 Terminal Path:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(creator_frame, textvariable=mt5_path_var_creator, width=50).grid(row=row, column=1, padx=5, pady=5)
-    # tk.Button(creator_frame, text="Browse", command=browse_mt5_path_creator).grid(row=row, column=2, padx=5, pady=5)
-    # row += 1
-
-    # tk.Label(creator_frame, text="MT5 Data Folder:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(creator_frame, textvariable=mt5_data_folder_var_creator, width=50).grid(row=row, column=1, padx=5, pady=5)
-    # tk.Button(creator_frame, text="Browse", command=browse_mt5_data_folder_creator).grid(row=row, column=2, padx=5, pady=5)
-    # row += 1
-
-    # tk.Label(creator_frame, text="Set Files Folder:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(creator_frame, textvariable=set_files_folder_var_creator, width=50).grid(row=row, column=1, padx=5, pady=5)
-    # tk.Button(creator_frame, text="Browse", command=browse_set_files_folder_creator).grid(row=row, column=2, padx=5, pady=5)
-    # row += 1
-
-    # tk.Label(creator_frame, text="Custom Report Folder Base Name:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(creator_frame, textvariable=custom_report_folder_base_var_creator, width=50).grid(row=row, column=1, padx=5, pady=5)
-    # row += 1
-
-    # tk.Label(creator_frame, text="From Date (YYYY.MM.DD):").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(creator_frame, textvariable=from_date_var_creator).grid(row=row, column=1, padx=5, pady=5)
-    # row += 1
-
-    # tk.Label(creator_frame, text="To Date (YYYY.MM.DD):").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(creator_frame, textvariable=to_date_var_creator).grid(row=row, column=1, padx=5, pady=5)
-    # row += 1
-
-    # tk.Label(creator_frame, text="Deposit:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(creator_frame, textvariable=deposit_var_creator).grid(row=row, column=1, padx=5, pady=5)
-    # row += 1
-
-    # tk.Label(creator_frame, text="Leverage:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(creator_frame, textvariable=leverage_var_creator).grid(row=row, column=1, padx=5, pady=5)
-    # row += 1
-
-    # tk.Label(creator_frame, text="Period:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(creator_frame, textvariable=period_var_creator).grid(row=row, column=1, padx=5, pady=5)
-    # row += 1
-
-    # tk.Label(creator_frame, text="Model (1= 1M OHCL, 4=ETWRT):").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(creator_frame, textvariable=model_var_creator).grid(row=row, column=1, padx=5, pady=5)
-    # row += 1
-
-    # tk.Label(creator_frame, text="Execution Mode:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(creator_frame, textvariable=execution_mode_var_creator).grid(row=row, column=1, padx=5, pady=5)
-    # row += 1
-
-    # tk.Label(creator_frame, text="Expert Advisor File Name:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(creator_frame, textvariable=expert_advisor_var_creator, width=50).grid(row=row, column=1, padx=5, pady=5)
-    # tk.Button(creator_frame, text="Browse", command=browse_expert_advisor_creator).grid(row=row, column=2, padx=5, pady=5)
-    # row += 1
-
-    # # Progress bar
-    # progress_var_creator = tk.DoubleVar()
-    # progress_bar_creator = ttk.Progressbar(creator_frame, variable=progress_var_creator, maximum=100, length=400)
-    # progress_bar_creator.grid(row=row, column=0, columnspan=3, sticky='we', padx=5, pady=10)
-    # row += 1
-
-    # Start and Stop buttons
-    # global start_button_creator, stop_button_creator
-    # start_button_creator = tk.Button(creator_frame, text="Start Test", command=start_process_creator, width=15, bg="green", fg="white")
-    # start_button_creator.grid(row=row, column=1, pady=10, sticky='e')
-
-    # stop_button_creator = tk.Button(creator_frame, text="Stop Test", command=stop_process_creator, state=tk.DISABLED, width=15, bg="red", fg="white")
-    # stop_button_creator.grid(row=row, column=2, pady=10, sticky='w')
-    # row += 1
-
-    # Layout for Backtester Tab
-    row = 0
-
-    # Inputs for Backtester
-    # tk.Label(backtester_frame, text="MT5 Terminal Path:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(backtester_frame, textvariable=mt5_path_var_backtester, width=50).grid(row=row, column=1, padx=5, pady=5)
-    # tk.Button(backtester_frame, text="Browse", command=browse_mt5_path_backtester).grid(row=row, column=2, padx=5, pady=5)
-    # row += 1
-
-    # tk.Label(backtester_frame, text="MT5 Data Folder:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(backtester_frame, textvariable=mt5_data_folder_var_backtester, width=50).grid(row=row, column=1, padx=5, pady=5)
-    # tk.Button(backtester_frame, text="Browse", command=browse_mt5_data_folder_backtester).grid(row=row, column=2, padx=5, pady=5)
-    # row += 1
-
-    # tk.Label(backtester_frame, text="Set Files Folder:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(backtester_frame, textvariable=set_files_folder_var_backtester, width=50).grid(row=row, column=1, padx=5, pady=5)
-    # tk.Button(backtester_frame, text="Browse", command=browse_set_files_folder_backtester).grid(row=row, column=2, padx=5, pady=5)
-    # row += 1
-
-    # tk.Label(backtester_frame, text="Custom Report Folder Base Name:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(backtester_frame, textvariable=custom_report_folder_base_var_backtester, width=50).grid(row=row, column=1, padx=5, pady=5)
-    # row += 1
-
-    # tk.Label(backtester_frame, text="From Date (YYYY.MM.DD):").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(backtester_frame, textvariable=from_date_var_backtester).grid(row=row, column=1, padx=5, pady=5)
-    # row += 1
-
-    # tk.Label(backtester_frame, text="To Date (YYYY.MM.DD):").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(backtester_frame, textvariable=to_date_var_backtester).grid(row=row, column=1, padx=5, pady=5)
-    # row += 1
-
-    # tk.Label(backtester_frame, text="Forward Date (YYYY.MM.DD, leave blank if using Forward Mode):").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(backtester_frame, textvariable=forward_date_var_backtester).grid(row=row, column=1, padx=5, pady=5)
-    # row += 1
-
-    # tk.Label(backtester_frame, text="Deposit:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(backtester_frame, textvariable=deposit_var_backtester).grid(row=row, column=1, padx=5, pady=5)
-    # row += 1
-
-    # tk.Label(backtester_frame, text="Leverage:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(backtester_frame, textvariable=leverage_var_backtester).grid(row=row, column=1, padx=5, pady=5)
-    # row += 1
-
-    # tk.Label(backtester_frame, text="Period:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(backtester_frame, textvariable=period_var_backtester).grid(row=row, column=1, padx=5, pady=5)
-    # row += 1
-
-    # tk.Label(backtester_frame, text="Model (1= 1M OHCL, 4=ETWRT):").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(backtester_frame, textvariable=model_var_backtester).grid(row=row, column=1, padx=5, pady=5)
-    # row += 1
-
-    # tk.Label(backtester_frame, text="Execution Mode:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(backtester_frame, textvariable=execution_mode_var_backtester).grid(row=row, column=1, padx=5, pady=5)
-    # row += 1
-
-    # # Optimization options
-    # optimization_options = [
-    #     "0 - Optimization disabled",
-    #     "1 - Slow complete algorithm",
-    #     "2 - Fast genetic based algorithm",
-    #     "3 - All symbols selected in Market Watch"
-    # ]
-
-    # tk.Label(backtester_frame, text="Optimization:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # optimization_combobox = ttk.Combobox(
-    #     backtester_frame, textvariable=optimization_var_backtester,
-    #     values=optimization_options, state='readonly'
-    # )
-    # optimization_combobox.grid(row=row, column=1, padx=5, pady=5)
-    # optimization_combobox.current(0)  # Set default selection to first option
-    # row += 1
-
-    # # Forward Mode options
-    # forward_mode_options = [
-    #     "0 - Off",
-    #     "1 - 1/2 of the testing period",
-    #     "2 - 1/3 of the testing period",
-    #     "3 - 1/4 of the testing period",
-    #     "4 - Custom interval specified using ForwardDate"
-    # ]
-
-    # tk.Label(backtester_frame, text="Forward Mode:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # forward_mode_combobox = ttk.Combobox(
-    #     backtester_frame, textvariable=forward_mode_var_backtester,
-    #     values=forward_mode_options, state='readonly'
-    # )
-    # forward_mode_combobox.grid(row=row, column=1, padx=5, pady=5)
-    # forward_mode_combobox.current(0)
-    # row += 1
-
-    # # Optimization Criterion options with updated names
-    # optimization_criterion_options = [
-    #     "0 - Balance Max",
-    #     "1 - Profit Factor Max",
-    #     "2 - Expected Payoff Max",
-    #     "3 - Drawdown Min",
-    #     "4 - Recovery Factor Max",
-    #     "5 - Sharpe Ratio Max",
-    #     "6 - Custom Max",
-    #     "7 - Complex Criterion Max"
-    # ]
-
-    # tk.Label(backtester_frame, text="Optimization Criterion:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # optimization_criterion_combobox = ttk.Combobox(
-    #     backtester_frame, textvariable=optimization_criterion_var_backtester,
-    #     values=optimization_criterion_options, state='readonly'
-    # )
-    # optimization_criterion_combobox.grid(row=row, column=1, padx=5, pady=5)
-    # optimization_criterion_combobox.current(0)
-    # row += 1
-
-    # tk.Label(backtester_frame, text="Expert Advisor File Name:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(backtester_frame, textvariable=expert_advisor_var_backtester, width=50).grid(row=row, column=1, padx=5, pady=5)
-    # tk.Button(backtester_frame, text="Browse", command=browse_expert_advisor_backtester).grid(row=row, column=2, padx=5, pady=5)
-    # row += 1
-
-    # # Progress bar
-    # progress_var_backtester = tk.DoubleVar()
-    # progress_bar_backtester = ttk.Progressbar(backtester_frame, variable=progress_var_backtester, maximum=100, length=400)
-    # progress_bar_backtester.grid(row=row, column=0, columnspan=3, sticky='we', padx=5, pady=10)
-    # row += 1
-
-    # # Start and Stop buttons
-    # global start_button_backtester, stop_button_backtester
-    # start_button_backtester = tk.Button(backtester_frame, text="Start Test", command=start_process_backtester, width=15, bg="green", fg="white")
-    # start_button_backtester.grid(row=row, column=1, pady=10, sticky='e')
-
-    # stop_button_backtester = tk.Button(backtester_frame, text="Stop Test", command=stop_process_backtester, state=tk.DISABLED, width=15, bg="red", fg="white")
-    # stop_button_backtester.grid(row=row, column=2, pady=10, sticky='w')
-    #row += 1
-
+    
 
     # full auto - POl ########################
 
@@ -3650,7 +3452,7 @@ def create_gui():
         values=optimization_options, state='readonly'
     )
     optimization_combobox.grid(row=row, column=1, padx=5, pady=5)
-    optimization_combobox.current(0)  # Set default selection to first option
+    optimization_combobox.current(2)  # Set default selection to first option
     row += 1
 
     # Forward Mode options
@@ -3668,7 +3470,7 @@ def create_gui():
         values=forward_mode_options, state='readonly'
     )
     forward_mode_combobox.grid(row=row, column=1, padx=5, pady=5)
-    forward_mode_combobox.current(0)
+    forward_mode_combobox.current(1)
     row += 1
 
     # Optimization Criterion options with updated names
@@ -3985,7 +3787,7 @@ def create_gui():
 
 
     load_creator_settings()
-    load_backtester_settings()
+    # load_backtester_settings()
 
 # Start the application initialization
 initialize_application()

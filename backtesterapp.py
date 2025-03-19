@@ -2388,7 +2388,7 @@ def run_full_automation(params, stop_event, progress_var,progress_label, total_s
             print('------------- creatorxml PARAMS ------------------')
             print(BALANCE)
             print(TARGET_DRAWDOWN)
-            print(MIN_TOT_EST_PROFIT)
+            #print(MIN_TOT_EST_PROFIT)
             print('------------- creatorxml PARAMS ------------------')
             app = QApplication(sys.argv)
             window = CSVProcessorApp_for_auto()
@@ -2926,12 +2926,12 @@ def create_gui():
 
     creator_xml_var_full_automation_1 = tk.StringVar(value="100000")
     creator_xml_var_full_automation_2 = tk.StringVar(value="1000")
-    creator_xml_var_full_automation_3 = tk.StringVar(value="0")
+    creator_xml_var_full_automation_3 = tk.StringVar(value="2000")
     # Use a StringVar to control the checkboxes
     checkbox_selection = tk.StringVar(value='maxOriginalDd')
-    creator_xml_var_full_automation_maxOriginalDd_value = tk.StringVar(value="0")
-    creator_xml_var_full_automation_totalEstimatedProfit_value = tk.StringVar(value="0")
-    creator_xml_var_full_automation_TRADES_value = tk.StringVar(value="0")
+    creator_xml_var_full_automation_maxOriginalDd_value = tk.StringVar(value="4000")
+    creator_xml_var_full_automation_totalEstimatedProfit_value = tk.StringVar(value="2000")
+    creator_xml_var_full_automation_TRADES_value = tk.StringVar(value="12")
 
     # mt5_path_var_full_automation_create_oos = tk.StringVar(value=r"C:\Program Files\MetaTrader 5\terminal64.exe")
     mt5_data_folder_var_full_automation_create_oos = tk.StringVar(value=os.path.expanduser(r"C:\Users\Admin\AppData\Roaming\MetaQuotes\Terminal\D0E8209F77C8CF37AD8BF550E51FF075"))
@@ -3595,7 +3595,7 @@ def create_gui():
     tk.Label(full_automation_frame, text="Download All ≥ Total Estimated Profit").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
     tk.Entry(full_automation_frame, textvariable=creator_xml_var_full_automation_totalEstimatedProfit_value).grid(row=row, column=1, padx=5, pady=5)
 
-    totalEstimatedProfit_checkbox = tk.BooleanVar(value=False)
+    totalEstimatedProfit_checkbox = tk.BooleanVar(value=True)
     #totalEstimatedProfit_checkbox.trace_add("write", on_other_checkboxes_change_ab)  # Add the callback
     # Add the checkbox
     tk.Checkbutton(
@@ -3615,7 +3615,7 @@ def create_gui():
     tk.Label(full_automation_frame, text="Download All ≤ Max Original DD").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
     tk.Entry(full_automation_frame, textvariable=creator_xml_var_full_automation_maxOriginalDd_value).grid(row=row, column=1, padx=5, pady=5)
     # Add the checkbox
-    maxOriginalDd_checkbox = tk.BooleanVar(value=False)
+    maxOriginalDd_checkbox = tk.BooleanVar(value=True)
     #maxOriginalDd_checkbox.trace_add("write", on_other_checkboxes_change_ab)
     tk.Checkbutton(
         full_automation_frame,
@@ -3635,7 +3635,7 @@ def create_gui():
     tk.Label(full_automation_frame, text="Download All Total Trades >= X Trades").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
     tk.Entry(full_automation_frame, textvariable=creator_xml_var_full_automation_TRADES_value).grid(row=row, column=1, padx=5, pady=5)
     # Add the checkbox
-    tradesFilter_checkbox = tk.BooleanVar(value=False)
+    tradesFilter_checkbox = tk.BooleanVar(value=True)
     #tradesFilter_checkbox.trace_add("write", on_trades_filter_checkbox_change)  # Add the callback
 
     tk.Checkbutton(
@@ -3653,7 +3653,7 @@ def create_gui():
     tk.Label(full_automation_frame, text="Download All Total Profit > Max_Original_DD").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
     #tk.Entry(full_automation_frame, textvariable=creator_xml_var_full_automation_3).grid(row=row, column=1, padx=5, pady=5)
     #Add the checkbox
-    allTtotalProfiltsGrTotEstDD_checkbox = tk.BooleanVar(value=False)
+    allTtotalProfiltsGrTotEstDD_checkbox = tk.BooleanVar(value=True)
     #allTtotalProfiltsGrTotEstDD_checkbox.trace_add("write", on_trades_filter_checkbox_change_d)
     tk.Checkbutton(
         full_automation_frame,
@@ -3667,7 +3667,7 @@ def create_gui():
 
 
     # Define a variable to track the state of the checkbox
-    remove_duplicates_var = tk.BooleanVar(value=False)  # Default is unchecked (False)
+    remove_duplicates_var = tk.BooleanVar(value=True)  # Default is unchecked (False)
 
     # Add the checkbox
     tk.Checkbutton(

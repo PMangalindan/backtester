@@ -2919,8 +2919,8 @@ def create_gui():
     model_var_full_automation = tk.StringVar(value="1")
     expert_advisor_var_full_automation = tk.StringVar(value="creator11-4_v03.ex5")
     execution_mode_var_full_automation = tk.StringVar(value="100")
-    optimization_var_full_automation = tk.StringVar(value="0 - Optimization disabled")
-    forward_mode_var_full_automation = tk.StringVar(value="0 - Off")
+    optimization_var_full_automation = tk.StringVar(value="2 - Fast genetic based algorithm")
+    forward_mode_var_full_automation = tk.StringVar(value="1 - 1/2 of the testing period")
     optimization_criterion_var_full_automation = tk.StringVar(value="0 - Balance Max")
 
 

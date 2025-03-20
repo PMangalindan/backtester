@@ -47,7 +47,6 @@ import math
 
 
 
-
 class CSVProcessorApp_for_auto(QWidget):
     def __init__(self):
         super().__init__()
@@ -2867,18 +2866,18 @@ def create_gui():
     #creatorxml_frame = create_scrollable_frame(notebook, "CreatorXML")
 
     # Variables specific to Creator OOS Generator
-    mt5_path_var_creator = tk.StringVar(value=r"C:\Program Files\MetaTrader 5\terminal64.exe")
-    mt5_data_folder_var_creator = tk.StringVar(value=os.path.expanduser(r"C:\Users\Admin\AppData\Roaming\MetaQuotes\Terminal\D0E8209F77C8CF37AD8BF550E51FF075"))
-    set_files_folder_var_creator = tk.StringVar(value=os.path.join(mt5_data_folder_var_creator.get(), r""))
-    custom_report_folder_base_var_creator = tk.StringVar(value="custom_reports")
-    from_date_var_creator = tk.StringVar(value="2019.01.01")
-    to_date_var_creator = tk.StringVar(value="2020.01.01")
-    deposit_var_creator = tk.StringVar(value="100000")
-    leverage_var_creator = tk.StringVar(value="100")
-    period_var_creator = tk.StringVar(value="M1")
-    model_var_creator = tk.StringVar(value="4")
-    expert_advisor_var_creator = tk.StringVar(value="creator11-4_v03.ex5")
-    execution_mode_var_creator = tk.StringVar(value="100")
+    # mt5_path_var_creator = tk.StringVar(value=r"C:\Program Files\MetaTrader 5\terminal64.exe")
+    # mt5_data_folder_var_creator = tk.StringVar(value=os.path.expanduser(r"C:\Users\Admin\AppData\Roaming\MetaQuotes\Terminal\D0E8209F77C8CF37AD8BF550E51FF075"))
+    # set_files_folder_var_creator = tk.StringVar(value=os.path.join(mt5_data_folder_var_creator.get(), r""))
+    # custom_report_folder_base_var_creator = tk.StringVar(value="custom_reports")
+    # from_date_var_creator = tk.StringVar(value="2019.01.01")
+    # to_date_var_creator = tk.StringVar(value="2020.01.01")
+    # deposit_var_creator = tk.StringVar(value="100000")
+    # leverage_var_creator = tk.StringVar(value="100")
+    # period_var_creator = tk.StringVar(value="M1")
+    # model_var_creator = tk.StringVar(value="4")
+    # expert_advisor_var_creator = tk.StringVar(value="creator11-4_v03.ex5")
+    # execution_mode_var_creator = tk.StringVar(value="100")
 
     # Variables specific to Backtester
     # mt5_path_var_backtester = tk.StringVar(value=r"C:\Program Files\MetaTrader 5\terminal64.exe")
@@ -2912,7 +2911,7 @@ def create_gui():
     custom_report_folder_base_var_full_automation = tk.StringVar(value="custom_reports")
     from_date_var_full_automation = tk.StringVar(value="2024.08.14")
     to_date_var_full_automation = tk.StringVar(value="2024.11.03")
-    forward_date_var_full_automation = tk.StringVar(value="2024.09.23")
+    forward_date_var_full_automation = tk.StringVar(value="")
     deposit_var_full_automation = tk.StringVar(value="100000")
     leverage_var_full_automation = tk.StringVar(value="100")
     period_var_full_automation = tk.StringVar(value="M1")
@@ -2934,11 +2933,11 @@ def create_gui():
     creator_xml_var_full_automation_TRADES_value = tk.StringVar(value="12")
 
     # mt5_path_var_full_automation_create_oos = tk.StringVar(value=r"C:\Program Files\MetaTrader 5\terminal64.exe")
-    mt5_data_folder_var_full_automation_create_oos = tk.StringVar(value=os.path.expanduser(r"C:\Users\Admin\AppData\Roaming\MetaQuotes\Terminal\D0E8209F77C8CF37AD8BF550E51FF075"))
-    set_files_folder_var_full_automation_create_oos = set_files_folder_var_full_automation
-    custom_report_folder_base_var_full_automation_create_oos = tk.StringVar(value="custom_reports")
-    from_date_var_full_automation_create_oos = tk.StringVar(value="2019.01.01")
-    to_date_var_full_automation_create_oos = tk.StringVar(value="2020.01.01")
+    # mt5_data_folder_var_full_automation_create_oos = tk.StringVar(value=os.path.expanduser(r"C:\Users\Admin\AppData\Roaming\MetaQuotes\Terminal\D0E8209F77C8CF37AD8BF550E51FF075"))
+    # set_files_folder_var_full_automation_create_oos = set_files_folder_var_full_automation
+    # custom_report_folder_base_var_full_automation_create_oos = tk.StringVar(value="custom_reports")
+    from_date_var_full_automation_create_oos = tk.StringVar(value="")
+    to_date_var_full_automation_create_oos = tk.StringVar(value="")
     deposit_var_full_automation_create_oos = tk.StringVar(value="100000")
     leverage_var_full_automation_create_oos = tk.StringVar(value="100")
     period_var_full_automation_create_oos = tk.StringVar(value="M1")
@@ -2950,39 +2949,39 @@ def create_gui():
 
 
     # Functions to browse for paths for Creator OOS Generator
-    def browse_mt5_path_creator():
-        path = filedialog.askopenfilename(title="Select MT5 Terminal", filetypes=[("Executable Files", "*.exe")])
-        if path:
-            normalized_path = os.path.normpath(path)
-            mt5_path_var_creator.set(normalized_path)
+    # def browse_mt5_path_creator():
+    #     path = filedialog.askopenfilename(title="Select MT5 Terminal", filetypes=[("Executable Files", "*.exe")])
+    #     if path:
+    #         normalized_path = os.path.normpath(path)
+    #         mt5_path_var_creator.set(normalized_path)
 
-    def browse_mt5_data_folder_creator():
-        path = filedialog.askdirectory(title="Select MT5 Data Folder")
-        if path:
-            normalized_path = os.path.normpath(path)
-            mt5_data_folder_var_creator.set(normalized_path)
+    # def browse_mt5_data_folder_creator():
+    #     path = filedialog.askdirectory(title="Select MT5 Data Folder")
+    #     if path:
+    #         normalized_path = os.path.normpath(path)
+    #         mt5_data_folder_var_creator.set(normalized_path)
 
-            # Update Set Files Folder default path based on new Data Folder
-            #set_files_folder_var_creator.set(os.path.join(path, r"new stuff\set files"))
-            set_files_folder_var_creator.set(os.path.normpath(os.path.join(normalized_path, r"new stuff\set files")))
+    #         # Update Set Files Folder default path based on new Data Folder
+    #         #set_files_folder_var_creator.set(os.path.join(path, r"new stuff\set files"))
+    #         set_files_folder_var_creator.set(os.path.normpath(os.path.join(normalized_path, r"new stuff\set files")))
 
-    def browse_set_files_folder_creator():
-        path = filedialog.askdirectory(title="Select Set Files Folder")
-        if path:
-            normalized_path = os.path.normpath(path)
-            set_files_folder_var_creator.set(normalized_path)
+    # def browse_set_files_folder_creator():
+    #     path = filedialog.askdirectory(title="Select Set Files Folder")
+    #     if path:
+    #         normalized_path = os.path.normpath(path)
+    #         set_files_folder_var_creator.set(normalized_path)
 
-    def browse_set_files_folder_creator_for_oos():
-        path = filedialog.askdirectory(title="Select Set Files Folder")
-        if path:
-            normalized_path = os.path.normpath(path)
-            set_files_folder_var_creator.set(normalized_path)
+    # def browse_set_files_folder_creator_for_oos():
+    #     path = filedialog.askdirectory(title="Select Set Files Folder")
+    #     if path:
+    #         normalized_path = os.path.normpath(path)
+    #         set_files_folder_var_creator.set(normalized_path)
 
-    def browse_expert_advisor_creator():
-        path = filedialog.askopenfilename(title="Select Expert Advisor File", filetypes=[("EA Files", "*.ex5;*.ex4")])
-        if path:
-            normalized_path = os.path.normpath(path)
-            expert_advisor_var_creator.set(os.path.basename(normalized_path))
+    # def browse_expert_advisor_creator():
+    #     path = filedialog.askopenfilename(title="Select Expert Advisor File", filetypes=[("EA Files", "*.ex5;*.ex4")])
+    #     if path:
+    #         normalized_path = os.path.normpath(path)
+    #         expert_advisor_var_creator.set(os.path.basename(normalized_path))
 
     # Functions to browse for paths for Backtester
     # def browse_mt5_path_backtester():
@@ -3046,43 +3045,43 @@ def create_gui():
         return selected_option.split(' - ')[0]
 
     # Functions to save and load settings for Creator OOS Generator
-    def save_creator_settings():
-        creator_settings = {
-            'mt5_path': mt5_path_var_creator.get(),
-            'mt5_data_folder': mt5_data_folder_var_creator.get(),
-            'set_files_folder': set_files_folder_var_creator.get(),
-            'custom_report_folder_base': custom_report_folder_base_var_creator.get(),
-            'from_date': from_date_var_creator.get(),
-            'to_date': to_date_var_creator.get(),
-            'deposit': deposit_var_creator.get(),
-            'leverage': leverage_var_creator.get(),
-            'period': period_var_creator.get(),
-            'model': model_var_creator.get(),
-            'execution_mode': execution_mode_var_creator.get(),
-            'expert_advisor': expert_advisor_var_creator.get(),
-        }
-        with open('creator_oos_settings.json', 'w') as f:
-            json.dump(creator_settings, f)
-        messagebox.showinfo("Settings Saved", "Creator OOS Generator settings have been saved as default.")
+    # def save_creator_settings():
+    #     creator_settings = {
+    #         'mt5_path': mt5_path_var_creator.get(),
+    #         'mt5_data_folder': mt5_data_folder_var_creator.get(),
+    #         'set_files_folder': set_files_folder_var_creator.get(),
+    #         'custom_report_folder_base': custom_report_folder_base_var_creator.get(),
+    #         'from_date': from_date_var_creator.get(),
+    #         'to_date': to_date_var_creator.get(),
+    #         'deposit': deposit_var_creator.get(),
+    #         'leverage': leverage_var_creator.get(),
+    #         'period': period_var_creator.get(),
+    #         'model': model_var_creator.get(),
+    #         'execution_mode': execution_mode_var_creator.get(),
+    #         'expert_advisor': expert_advisor_var_creator.get(),
+    #     }
+    #     with open('creator_oos_settings.json', 'w') as f:
+    #         json.dump(creator_settings, f)
+    #     messagebox.showinfo("Settings Saved", "Creator OOS Generator settings have been saved as default.")
 
-    def load_creator_settings():
-        try:
-            with open('creator_oos_settings.json', 'r') as f:
-                creator_settings = json.load(f)
-            mt5_path_var_creator.set(creator_settings['mt5_path'])
-            mt5_data_folder_var_creator.set(creator_settings['mt5_data_folder'])
-            set_files_folder_var_creator.set(creator_settings['set_files_folder'])
-            custom_report_folder_base_var_creator.set(creator_settings['custom_report_folder_base'])
-            from_date_var_creator.set(creator_settings['from_date'])
-            to_date_var_creator.set(creator_settings['to_date'])
-            deposit_var_creator.set(creator_settings['deposit'])
-            leverage_var_creator.set(creator_settings['leverage'])
-            period_var_creator.set(creator_settings['period'])
-            model_var_creator.set(creator_settings['model'])
-            execution_mode_var_creator.set(creator_settings['execution_mode'])
-            expert_advisor_var_creator.set(creator_settings['expert_advisor'])
-        except FileNotFoundError:
-            pass
+    # def load_creator_settings():
+    #     try:
+    #         with open('creator_oos_settings.json', 'r') as f:
+    #             creator_settings = json.load(f)
+    #         mt5_path_var_creator.set(creator_settings['mt5_path'])
+    #         mt5_data_folder_var_creator.set(creator_settings['mt5_data_folder'])
+    #         set_files_folder_var_creator.set(creator_settings['set_files_folder'])
+    #         custom_report_folder_base_var_creator.set(creator_settings['custom_report_folder_base'])
+    #         from_date_var_creator.set(creator_settings['from_date'])
+    #         to_date_var_creator.set(creator_settings['to_date'])
+    #         deposit_var_creator.set(creator_settings['deposit'])
+    #         leverage_var_creator.set(creator_settings['leverage'])
+    #         period_var_creator.set(creator_settings['period'])
+    #         model_var_creator.set(creator_settings['model'])
+    #         execution_mode_var_creator.set(creator_settings['execution_mode'])
+    #         expert_advisor_var_creator.set(creator_settings['expert_advisor'])
+    #     except FileNotFoundError:
+    #         pass
 
     # Functions to save and load settings for Backtester
     # def save_backtester_settings():
@@ -3414,92 +3413,92 @@ def create_gui():
     tk.Entry(full_automation_frame, textvariable=to_date_var_full_automation).grid(row=row, column=1, padx=5, pady=5)
     row += 1
 
-    tk.Label(full_automation_frame, text="Forward Date (YYYY.MM.DD, leave blank if using Forward Mode):").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    tk.Entry(full_automation_frame, textvariable=forward_date_var_full_automation).grid(row=row, column=1, padx=5, pady=5)
-    row += 1
+    # tk.Label(full_automation_frame, text="Forward Date (YYYY.MM.DD, leave blank if using Forward Mode):").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    # tk.Entry(full_automation_frame, textvariable=forward_date_var_full_automation).grid(row=row, column=1, padx=5, pady=5)
+    # row += 1
 
-    tk.Label(full_automation_frame, text="Deposit:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    tk.Entry(full_automation_frame, textvariable=deposit_var_full_automation).grid(row=row, column=1, padx=5, pady=5)
-    row += 1
+    # tk.Label(full_automation_frame, text="Deposit:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    # tk.Entry(full_automation_frame, textvariable=deposit_var_full_automation).grid(row=row, column=1, padx=5, pady=5)
+    # row += 1
 
-    tk.Label(full_automation_frame, text="Leverage:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    tk.Entry(full_automation_frame, textvariable=leverage_var_full_automation).grid(row=row, column=1, padx=5, pady=5)
-    row += 1
+    # tk.Label(full_automation_frame, text="Leverage:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    # tk.Entry(full_automation_frame, textvariable=leverage_var_full_automation).grid(row=row, column=1, padx=5, pady=5)
+    # row += 1
 
-    tk.Label(full_automation_frame, text="Period:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    tk.Entry(full_automation_frame, textvariable=period_var_full_automation).grid(row=row, column=1, padx=5, pady=5)
-    row += 1
+    # tk.Label(full_automation_frame, text="Period:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    # tk.Entry(full_automation_frame, textvariable=period_var_full_automation).grid(row=row, column=1, padx=5, pady=5)
+    # row += 1
 
-    tk.Label(full_automation_frame, text="Model (1= 1M OHCL, 4=ETWRT):").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    tk.Entry(full_automation_frame, textvariable=model_var_full_automation).grid(row=row, column=1, padx=5, pady=5)
-    row += 1
+    # tk.Label(full_automation_frame, text="Model (1= 1M OHCL, 4=ETWRT):").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    # tk.Entry(full_automation_frame, textvariable=model_var_full_automation).grid(row=row, column=1, padx=5, pady=5)
+    # row += 1
 
-    tk.Label(full_automation_frame, text="Execution Mode:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    tk.Entry(full_automation_frame, textvariable=execution_mode_var_full_automation).grid(row=row, column=1, padx=5, pady=5)
-    row += 1
+    # tk.Label(full_automation_frame, text="Execution Mode:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    # tk.Entry(full_automation_frame, textvariable=execution_mode_var_full_automation).grid(row=row, column=1, padx=5, pady=5)
+    # row += 1
 
-    # Optimization options
-    optimization_options = [
-        "0 - Optimization disabled",
-        "1 - Slow complete algorithm",
-        "2 - Fast genetic based algorithm",
-        "3 - All symbols selected in Market Watch"
-    ]
+    # # Optimization options
+    # optimization_options = [
+    #     "0 - Optimization disabled",
+    #     "1 - Slow complete algorithm",
+    #     "2 - Fast genetic based algorithm",
+    #     "3 - All symbols selected in Market Watch"
+    # ]
 
-    tk.Label(full_automation_frame, text="Optimization:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    optimization_combobox = ttk.Combobox(
-        full_automation_frame, textvariable=optimization_var_full_automation,
-        values=optimization_options, state='readonly'
-    )
-    optimization_combobox.grid(row=row, column=1, padx=5, pady=5)
-    optimization_combobox.current(2)  # Set default selection to first option
-    row += 1
+    # tk.Label(full_automation_frame, text="Optimization:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    # optimization_combobox = ttk.Combobox(
+    #     full_automation_frame, textvariable=optimization_var_full_automation,
+    #     values=optimization_options, state='readonly'
+    # )
+    # optimization_combobox.grid(row=row, column=1, padx=5, pady=5)
+    # optimization_combobox.current(2)  # Set default selection to first option
+    # row += 1
 
-    # Forward Mode options
-    forward_mode_options = [
-        "0 - Off",
-        "1 - 1/2 of the testing period",
-        "2 - 1/3 of the testing period",
-        "3 - 1/4 of the testing period",
-        "4 - Custom interval specified using ForwardDate"
-    ]
+    # # Forward Mode options
+    # forward_mode_options = [
+    #     "0 - Off",
+    #     "1 - 1/2 of the testing period",
+    #     "2 - 1/3 of the testing period",
+    #     "3 - 1/4 of the testing period",
+    #     "4 - Custom interval specified using ForwardDate"
+    # ]
 
-    tk.Label(full_automation_frame, text="Forward Mode:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    forward_mode_combobox = ttk.Combobox(
-        full_automation_frame, textvariable=forward_mode_var_full_automation,
-        values=forward_mode_options, state='readonly'
-    )
-    forward_mode_combobox.grid(row=row, column=1, padx=5, pady=5)
-    forward_mode_combobox.current(1)
-    row += 1
+    # tk.Label(full_automation_frame, text="Forward Mode:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    # forward_mode_combobox = ttk.Combobox(
+    #     full_automation_frame, textvariable=forward_mode_var_full_automation,
+    #     values=forward_mode_options, state='readonly'
+    # )
+    # forward_mode_combobox.grid(row=row, column=1, padx=5, pady=5)
+    # forward_mode_combobox.current(1)
+    # row += 1
 
-    # Optimization Criterion options with updated names
-    optimization_criterion_options = [
-        "0 - Balance Max",
-        "1 - Profit Factor Max",
-        "2 - Expected Payoff Max",
-        "3 - Drawdown Min",
-        "4 - Recovery Factor Max",
-        "5 - Sharpe Ratio Max",
-        "6 - Custom Max",
-        "7 - Complex Criterion Max"
-    ]
-
-
+    # # Optimization Criterion options with updated names
+    # optimization_criterion_options = [
+    #     "0 - Balance Max",
+    #     "1 - Profit Factor Max",
+    #     "2 - Expected Payoff Max",
+    #     "3 - Drawdown Min",
+    #     "4 - Recovery Factor Max",
+    #     "5 - Sharpe Ratio Max",
+    #     "6 - Custom Max",
+    #     "7 - Complex Criterion Max"
+    # ]
 
 
 
 
 
 
-    tk.Label(full_automation_frame, text="Optimization Criterion:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    optimization_criterion_combobox = ttk.Combobox(
-        full_automation_frame, textvariable=optimization_criterion_var_full_automation,
-        values=optimization_criterion_options, state='readonly'
-    )
-    optimization_criterion_combobox.grid(row=row, column=1, padx=5, pady=5)
-    optimization_criterion_combobox.current(0)
-    row += 1
+
+
+    # tk.Label(full_automation_frame, text="Optimization Criterion:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    # optimization_criterion_combobox = ttk.Combobox(
+    #     full_automation_frame, textvariable=optimization_criterion_var_full_automation,
+    #     values=optimization_criterion_options, state='readonly'
+    # )
+    # optimization_criterion_combobox.grid(row=row, column=1, padx=5, pady=5)
+    # optimization_criterion_combobox.current(0)
+    # row += 1
 
     tk.Label(full_automation_frame, text="Expert Advisor File Name:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
     tk.Entry(full_automation_frame, textvariable=expert_advisor_var_full_automation, width=50).grid(row=row, column=1, padx=5, pady=5)
@@ -3509,15 +3508,15 @@ def create_gui():
 
     ############################ creatorxml parameters
     tk.Label(full_automation_frame, text="-----CREATOR_XML PARAMS-----").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    row += 1
+    # row += 1
 
-    tk.Label(full_automation_frame, text="balance:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    tk.Entry(full_automation_frame, textvariable=creator_xml_var_full_automation_1).grid(row=row, column=1, padx=5, pady=5)
-    row += 1
+    # tk.Label(full_automation_frame, text="balance:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    # tk.Entry(full_automation_frame, textvariable=creator_xml_var_full_automation_1).grid(row=row, column=1, padx=5, pady=5)
+    # row += 1
 
-    tk.Label(full_automation_frame, text="target drawdown:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    tk.Entry(full_automation_frame, textvariable=creator_xml_var_full_automation_2).grid(row=row, column=1, padx=5, pady=5)
-    row += 1
+    # tk.Label(full_automation_frame, text="target drawdown:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    # tk.Entry(full_automation_frame, textvariable=creator_xml_var_full_automation_2).grid(row=row, column=1, padx=5, pady=5)
+    # row += 1
     ##############
 
 
@@ -3592,19 +3591,19 @@ def create_gui():
             allTtotalProfiltsGrTotEstDD_checkbox.set(True)
 
 
-    tk.Label(full_automation_frame, text="Download All ≥ Total Estimated Profit").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    tk.Entry(full_automation_frame, textvariable=creator_xml_var_full_automation_totalEstimatedProfit_value).grid(row=row, column=1, padx=5, pady=5)
+    # tk.Label(full_automation_frame, text="Download All ≥ Total Estimated Profit").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    # tk.Entry(full_automation_frame, textvariable=creator_xml_var_full_automation_totalEstimatedProfit_value).grid(row=row, column=1, padx=5, pady=5)
 
     totalEstimatedProfit_checkbox = tk.BooleanVar(value=True)
-    #totalEstimatedProfit_checkbox.trace_add("write", on_other_checkboxes_change_ab)  # Add the callback
+    ##totalEstimatedProfit_checkbox.trace_add("write", on_other_checkboxes_change_ab)  # Add the callback
     # Add the checkbox
-    tk.Checkbutton(
-        full_automation_frame,
-        text="",
-        variable=totalEstimatedProfit_checkbox,
-        onvalue=True,  # Value when checked
-        offvalue=False,  # Value when unchecked
-    ).grid(row=row, column=2, columnspan=2, sticky=tk.W, padx=5, pady=5)
+    # tk.Checkbutton(
+    #     full_automation_frame,
+    #     text="",
+    #     variable=totalEstimatedProfit_checkbox,
+    #     onvalue=True,  # Value when checked
+    #     offvalue=False,  # Value when unchecked
+    # ).grid(row=row, column=2, columnspan=2, sticky=tk.W, padx=5, pady=5)
 
 
     row += 1
@@ -3612,73 +3611,73 @@ def create_gui():
 
 
 
-    tk.Label(full_automation_frame, text="Download All ≤ Max Original DD").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    tk.Entry(full_automation_frame, textvariable=creator_xml_var_full_automation_maxOriginalDd_value).grid(row=row, column=1, padx=5, pady=5)
+    # tk.Label(full_automation_frame, text="Download All ≤ Max Original DD").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    # tk.Entry(full_automation_frame, textvariable=creator_xml_var_full_automation_maxOriginalDd_value).grid(row=row, column=1, padx=5, pady=5)
     # Add the checkbox
     maxOriginalDd_checkbox = tk.BooleanVar(value=True)
     #maxOriginalDd_checkbox.trace_add("write", on_other_checkboxes_change_ab)
-    tk.Checkbutton(
-        full_automation_frame,
-        text="",
-        variable=maxOriginalDd_checkbox,
-        onvalue=True,  # Value when checked
-        offvalue=False,  # Value when unchecked
-    ).grid(row=row, column=2, columnspan=2, sticky=tk.W, padx=5, pady=5)
+    # tk.Checkbutton(
+    #     full_automation_frame,
+    #     text="",
+    #     variable=maxOriginalDd_checkbox,
+    #     onvalue=True,  # Value when checked
+    #     offvalue=False,  # Value when unchecked
+    # ).grid(row=row, column=2, columnspan=2, sticky=tk.W, padx=5, pady=5)
 
-    row += 1
+    # row += 1
 
     ##############################################
 
 
 
 
-    tk.Label(full_automation_frame, text="Download All Total Trades >= X Trades").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    tk.Entry(full_automation_frame, textvariable=creator_xml_var_full_automation_TRADES_value).grid(row=row, column=1, padx=5, pady=5)
+    #tk.Label(full_automation_frame, text="Download All Total Trades >= X Trades").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    #tk.Entry(full_automation_frame, textvariable=creator_xml_var_full_automation_TRADES_value).grid(row=row, column=1, padx=5, pady=5)
     # Add the checkbox
     tradesFilter_checkbox = tk.BooleanVar(value=True)
     #tradesFilter_checkbox.trace_add("write", on_trades_filter_checkbox_change)  # Add the callback
 
-    tk.Checkbutton(
-        full_automation_frame,
-        text="",
-        variable= tradesFilter_checkbox,
-        onvalue=True,  # Value when checked
-        offvalue=False,  # Value when unchecked
-    ).grid(row=row, column=2, columnspan=2, sticky=tk.W, padx=5, pady=5)
+    # tk.Checkbutton(
+    #     full_automation_frame,
+    #     text="",
+    #     variable= tradesFilter_checkbox,
+    #     onvalue=True,  # Value when checked
+    #     offvalue=False,  # Value when unchecked
+    # ).grid(row=row, column=2, columnspan=2, sticky=tk.W, padx=5, pady=5)
 
-    row += 1
+    # row += 1
 
 
 
-    tk.Label(full_automation_frame, text="Download All Total Profit > Max_Original_DD").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    #tk.Entry(full_automation_frame, textvariable=creator_xml_var_full_automation_3).grid(row=row, column=1, padx=5, pady=5)
+    #tk.Label(full_automation_frame, text="Download All Total Profit > Max_Original_DD").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    ##tk.Entry(full_automation_frame, textvariable=creator_xml_var_full_automation_3).grid(row=row, column=1, padx=5, pady=5)
     #Add the checkbox
     allTtotalProfiltsGrTotEstDD_checkbox = tk.BooleanVar(value=True)
     #allTtotalProfiltsGrTotEstDD_checkbox.trace_add("write", on_trades_filter_checkbox_change_d)
-    tk.Checkbutton(
-        full_automation_frame,
-        text="",
-        variable=allTtotalProfiltsGrTotEstDD_checkbox,
-        onvalue=True,  # Value when checked
-        offvalue=False,  # Value when unchecked
-    ).grid(row=row, column=2, columnspan=2, sticky=tk.W, padx=5, pady=5)
+    # tk.Checkbutton(
+    #     full_automation_frame,
+    #     text="",
+    #     variable=allTtotalProfiltsGrTotEstDD_checkbox,
+    #     onvalue=True,  # Value when checked
+    #     offvalue=False,  # Value when unchecked
+    # ).grid(row=row, column=2, columnspan=2, sticky=tk.W, padx=5, pady=5)
 
-    row += 1
+    # row += 1
 
 
     # Define a variable to track the state of the checkbox
     remove_duplicates_var = tk.BooleanVar(value=True)  # Default is unchecked (False)
 
     # Add the checkbox
-    tk.Checkbutton(
-        full_automation_frame,
-        text="Remove Duplicates",
-        variable=remove_duplicates_var,
-        onvalue=True,  # Value when checked
-        offvalue=False,  # Value when unchecked
-    ).grid(row=row, column=1, columnspan=2, sticky=tk.W, padx=5, pady=5)
+    # tk.Checkbutton(
+    #     full_automation_frame,
+    #     text="Remove Duplicates",
+    #     variable=remove_duplicates_var,
+    #     onvalue=True,  # Value when checked
+    #     offvalue=False,  # Value when unchecked
+    # ).grid(row=row, column=1, columnspan=2, sticky=tk.W, padx=5, pady=5)
 
-    row += 1
+    # row += 1
 
 
     # Start and Stop buttons
@@ -3786,7 +3785,7 @@ def create_gui():
 
 
 
-    load_creator_settings()
+    # load_creator_settings()
     # load_backtester_settings()
 
 # Start the application initialization

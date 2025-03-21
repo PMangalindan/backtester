@@ -3543,7 +3543,7 @@ def create_gui():
 
 
     ############################ creatorxml parameters
-    # tk.Label(full_automation_frame, text="-----CREATOR_XML PARAMS-----").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    tk.Label(full_automation_frame, text="-----CREATOR_XML PARAMS-----").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
     # row += 1
 
     # tk.Label(full_automation_frame, text="balance:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
@@ -3719,16 +3719,16 @@ def create_gui():
     # Start and Stop buttons
     global start_button_full_automation, stop_button_full_automation
     start_button_full_automation = tk.Button(full_automation_frame, text="Start Test", command=start_process_full_automation, width=15, bg="green", fg="white")
-    start_button_full_automation.grid(row=row, column=1, pady=10, sticky='e')
+    start_button_full_automation.grid(row=row, column=1+3, pady=10, sticky='e')
 
     stop_button_full_automation = tk.Button(full_automation_frame, text="Stop Test", command=stop_process_full_automation, state=tk.DISABLED, width=15, bg="red", fg="white")
-    stop_button_full_automation.grid(row=row, column=1+1, pady=10, sticky='w')
+    stop_button_full_automation.grid(row=row, column=2+3, pady=10, sticky='w')
     row += 1
 
     # Progress bar
     progress_var_full_automation = tk.DoubleVar()
     progress_bar_full_automation = ttk.Progressbar(full_automation_frame, variable=progress_var_full_automation, maximum=100, length=400)
-    progress_bar_full_automation.grid(row=row, column=0, columnspan=3, sticky='we', padx=5, pady=10)
+    progress_bar_full_automation.grid(row=row, column=0, columnspan=3+3, sticky='we', padx=5, pady=10)
 
     progress_label = tk.Label(
     full_automation_frame,
@@ -3748,8 +3748,8 @@ def create_gui():
 
     row = 0
 
-    # tk.Label(full_automation_frame, text="-----CREATOR OOS GEN PARAMS-----").grid(row=row, column=0+3, sticky=tk.W, padx=5, pady=5)
-    # row += 1
+    tk.Label(full_automation_frame, text="-----CREATOR OOS GEN PARAMS-----").grid(row=row, column=0+3, sticky=tk.W, padx=5, pady=5)
+    row += 1
 
     # tk.Label(full_automation_frame, text="Set Files Folder:").grid(row=row, column=0+3, sticky=tk.W, padx=5, pady=5)
     # tk.Entry(full_automation_frame, textvariable=set_files_folder_var_full_automation_create_oos, width=50).grid(row=row, column=1+3, padx=5, pady=5)
@@ -3760,33 +3760,33 @@ def create_gui():
     # tk.Entry(full_automation_frame, textvariable=custom_report_folder_base_var_full_automation_create_oos, width=50).grid(row=row, column=1+3, padx=5, pady=5)
     # row += 1
 
-    # tk.Label(full_automation_frame, text="From Date (YYYY.MM.DD):").grid(row=row, column=0+3, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(full_automation_frame, textvariable=from_date_var_full_automation_create_oos).grid(row=row, column=1+3, padx=5, pady=5)
-    # row += 1
+    tk.Label(full_automation_frame, text="From Date (YYYY.MM.DD):").grid(row=row, column=0+3, sticky=tk.W, padx=5, pady=5)
+    tk.Entry(full_automation_frame, textvariable=from_date_var_full_automation_create_oos).grid(row=row, column=1+3, padx=5, pady=5)
+    row += 1
 
-    # tk.Label(full_automation_frame, text="To Date (YYYY.MM.DD):").grid(row=row, column=0+3, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(full_automation_frame, textvariable=to_date_var_full_automation_create_oos).grid(row=row, column=1+3, padx=5, pady=5)
-    # row += 1
+    tk.Label(full_automation_frame, text="To Date (YYYY.MM.DD):").grid(row=row, column=0+3, sticky=tk.W, padx=5, pady=5)
+    tk.Entry(full_automation_frame, textvariable=to_date_var_full_automation_create_oos).grid(row=row, column=1+3, padx=5, pady=5)
+    row += 1
 
-    # tk.Label(full_automation_frame, text="Deposit:").grid(row=row, column=0+3, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(full_automation_frame, textvariable=deposit_var_full_automation_create_oos).grid(row=row, column=1+3, padx=5, pady=5)
-    # row += 1
+    tk.Label(full_automation_frame, text="Deposit:").grid(row=row, column=0+3, sticky=tk.W, padx=5, pady=5)
+    tk.Entry(full_automation_frame, textvariable=deposit_var_full_automation_create_oos).grid(row=row, column=1+3, padx=5, pady=5)
+    row += 1
 
-    # tk.Label(full_automation_frame, text="Leverage:").grid(row=row, column=0+3, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(full_automation_frame, textvariable=leverage_var_full_automation_create_oos).grid(row=row, column=1+3, padx=5, pady=5)
-    # row += 1
+    tk.Label(full_automation_frame, text="Leverage:").grid(row=row, column=0+3, sticky=tk.W, padx=5, pady=5)
+    tk.Entry(full_automation_frame, textvariable=leverage_var_full_automation_create_oos).grid(row=row, column=1+3, padx=5, pady=5)
+    row += 1
 
-    # tk.Label(full_automation_frame, text="Period:").grid(row=row, column=0+3, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(full_automation_frame, textvariable=period_var_full_automation_create_oos).grid(row=row, column=1+3, padx=5, pady=5)
-    # row += 1
+    tk.Label(full_automation_frame, text="Period:").grid(row=row, column=0+3, sticky=tk.W, padx=5, pady=5)
+    tk.Entry(full_automation_frame, textvariable=period_var_full_automation_create_oos).grid(row=row, column=1+3, padx=5, pady=5)
+    row += 1
 
-    # tk.Label(full_automation_frame, text="Model (1= 1M OHCL, 4=ETWRT):").grid(row=row, column=0+3, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(full_automation_frame, textvariable=model_var_full_automation_create_oos).grid(row=row, column=1+3, padx=5, pady=5)
-    # row += 1
+    tk.Label(full_automation_frame, text="Model (1= 1M OHCL, 4=ETWRT):").grid(row=row, column=0+3, sticky=tk.W, padx=5, pady=5)
+    tk.Entry(full_automation_frame, textvariable=model_var_full_automation_create_oos).grid(row=row, column=1+3, padx=5, pady=5)
+    row += 1
 
-    # tk.Label(full_automation_frame, text="Execution Mode:").grid(row=row, column=0+3, sticky=tk.W, padx=5, pady=5)
-    # tk.Entry(full_automation_frame, textvariable=execution_mode_var_full_automation_create_oos).grid(row=row, column=1+3, padx=5, pady=5)
-    # row += 1
+    tk.Label(full_automation_frame, text="Execution Mode:").grid(row=row, column=0+3, sticky=tk.W, padx=5, pady=5)
+    tk.Entry(full_automation_frame, textvariable=execution_mode_var_full_automation_create_oos).grid(row=row, column=1+3, padx=5, pady=5)
+    row += 1
 
     #tk.Label(full_automation_frame, text="Expert Advisor File Name:").grid(row=row, column=0+3, sticky=tk.W, padx=5, pady=5)
     #tk.Entry(full_automation_frame, textvariable=expert_advisor_var_full_automation, width=50).grid(row=row, column=1+3, padx=5, pady=5)

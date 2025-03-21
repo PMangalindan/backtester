@@ -57,6 +57,11 @@ def next_friday(date_str):
     return next_friday_date.strftime("%Y.%m.%d")
 
 # Example usage
-print(next_friday("2025.03.17"))  # Output: "2025.03.21"
-print(next_friday("2024.03.14"))  # Output: "2024.03.15"
-print(next_friday("2025.03.14"))  # Output: "2025.03.21"
+# print(next_friday("2025.03.17"))  # Output: "2025.03.21"
+# print(next_friday("2024.03.14"))  # Output: "2024.03.15"
+# print(next_friday("2025.03.14"))  # Output: "2025.03.21"
+
+
+
+print(next_sunday("2025.03.29"))
+print(next_friday(next_sunday("2025.03.29")))

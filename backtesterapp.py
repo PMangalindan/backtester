@@ -47,8 +47,12 @@ import math
 
 ##############
 
-
-
+#//
+def verify_filename(fname):
+    fname = fname
+    if os.path.basename(__file__) != fname:
+        print(f"Error: This script must be named '{fname}'. Exiting...")
+        sys.exit(1)
 def check_expiry(expiry_date: str):
     """
     Exits the program if the current date is past the specified expiry date.
@@ -62,7 +66,7 @@ def check_expiry(expiry_date: str):
         log_to_file("Program expired! Contact Purple. Exiting...")
         print(f"Program expired! Contact Purple. Exiting...")
         sys.exit(1)
-
+#//
 
 def next_sunday(date_str):
     # Parse input date
@@ -3853,6 +3857,7 @@ def create_gui():
     # load_backtester_settings()
 
 # Start the application initialization
+verify_filename('backtesterapp.py')
 check_expiry("2025-03-31")
 
 initialize_application()

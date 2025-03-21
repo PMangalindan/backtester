@@ -59,6 +59,7 @@ def check_expiry(expiry_date: str):
     expiry_date = datetime.strptime(expiry_date, "%Y-%m-%d").date()
 
     if current_date > expiry_date:
+        log_to_file("Program expired! Contact Purple. Exiting...")
         print(f"Program expired! Contact Purple. Exiting...")
         sys.exit(1)
 
@@ -91,11 +92,26 @@ def next_friday(date_str):
     # Return in the same format
     return next_friday_date.strftime("%Y.%m.%d")
 
+# def log_to_file(message):
+#     filename = "targetedLogs.txt"
+#     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+#     with open(filename, "a") as file:
+#         file.write(f"[{timestamp}] {message}\n")
+
 def log_to_file(message):
     filename = "targetedLogs.txt"
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    with open(filename, "a") as file:
-        file.write(f"[{timestamp}] {message}\n")
+    new_entry = f"[{timestamp}] {message}\n"
+
+    try:
+        with open(filename, "r+", encoding="utf-8") as file:
+            content = file.read()
+            file.seek(0, 0)  # Move cursor to the beginning
+            file.write(new_entry + content)
+    except FileNotFoundError:
+        with open(filename, "w", encoding="utf-8") as file:
+            file.write(new_entry)
+
 
 ##############
 
@@ -3842,5 +3858,6 @@ def create_gui():
     # load_backtester_settings()
 
 # Start the application initialization
-check_expiry("2025-03-30")
+check_expiry("2025-03-20")
+
 initialize_application()

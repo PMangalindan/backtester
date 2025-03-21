@@ -3858,6 +3858,6 @@ def create_gui():
     # load_backtester_settings()
 
 # Start the application initialization
-check_expiry("2025-03-20")
+check_expiry("2025-03-31")
 
 initialize_application()

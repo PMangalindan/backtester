@@ -92,11 +92,6 @@ def next_friday(date_str):
     # Return in the same format
     return next_friday_date.strftime("%Y.%m.%d")
 
-# def log_to_file(message):
-#     filename = "targetedLogs.txt"
-#     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-#     with open(filename, "a") as file:
-#         file.write(f"[{timestamp}] {message}\n")
 
 def log_to_file(message):
     filename = "targetedLogs.txt"

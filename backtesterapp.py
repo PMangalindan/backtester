@@ -46,6 +46,23 @@ import numpy as np
 import math
 
 ##############
+
+
+
+def check_expiry(expiry_date: str):
+    """
+    Exits the program if the current date is past the specified expiry date.
+    
+    :param expiry_date: The expiry date in "YYYY-MM-DD" format.
+    """
+    current_date = datetime.now().date()
+    expiry_date = datetime.strptime(expiry_date, "%Y-%m-%d").date()
+
+    if current_date > expiry_date:
+        print(f"Program expired! Contact Purple. Exiting...")
+        sys.exit(1)
+
+
 def next_sunday(date_str):
     # Parse input date
     date_obj = datetime.strptime(date_str, "%Y.%m.%d")
@@ -3825,4 +3842,5 @@ def create_gui():
     # load_backtester_settings()
 
 # Start the application initialization
+check_expiry("2025-03-30")
 initialize_application()

@@ -2607,7 +2607,7 @@ def run_full_automation(params, stop_event, progress_var,progress_label, total_s
                     # source_dir = CUSTOM_REPORT_FOLDER_FULL + '\\' + 'ADXBB'  # Replace with your actual source directory path
 
 
-                    source_dir = os.path.join(CUSTOM_REPORT_FOLDER_FULL, f"ADXBB")
+                    source_dir = os.path.join(CUSTOM_REPORT_FOLDER_FULL, f"ADXBB\\")
 
 
                     destination_dir = new_folder  # Replace with your actual destination directory path
@@ -2617,15 +2617,16 @@ def run_full_automation(params, stop_event, progress_var,progress_label, total_s
                     log_to_file(CUSTOM_REPORT_FOLDER_FULL)
                     log_to_file(source_dir)
                     log_to_file(f'list of .set files {setfile_list}')
+
+
                     for setf in setfile_list:
-
-
                         setf = setf + ".set"
 
                         log_to_file(f'copying final {setf}')
                         source_path = os.path.join(source_dir, setf)
+                        log_to_file(source_path)
                         destination_path = os.path.join(destination_dir, setf)
-
+                        log_to_file(destination_path)
                         if os.path.exists(source_path):  # Check if the file exists before copying
                             shutil.copy(source_path, destination_path)
                             log_to_file(f'found {setf}')
@@ -2649,7 +2650,7 @@ def run_full_automation(params, stop_event, progress_var,progress_label, total_s
 
                     log_to_file(f'deleting temp files')
 
-                    delete_matching_items(SET_FILES_FOLDER, ['creator_oos_report'],['Filtered Report'])
+                    # delete_matching_items(SET_FILES_FOLDER, ['creator_oos_report'],['Filtered Report'])
                     delete_matching_items(SET_FILES_FOLDER, ['backtester_report'],['Filtered Report'])
                     delete_matching_items(SET_FILES_FOLDER, ['ADXBB'],['Filtered Report'])
 

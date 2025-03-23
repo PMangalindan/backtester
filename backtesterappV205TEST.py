@@ -48,6 +48,20 @@ import math
 ##############
 
 #//
+def delete_matching_items(directory, list_a, list_b):
+    for item in os.listdir(directory):
+        item_path = os.path.join(directory, item)
+
+        # Check if item matches any in list_a but does not match any in list_b
+        if any(a in item for a in list_a) and not any(b in item for b in list_b):
+            if os.path.isfile(item_path):
+                os.remove(item_path)
+                print(f"Deleted file: {item_path}")
+            elif os.path.isdir(item_path):
+                shutil.rmtree(item_path)
+                print(f"Deleted folder: {item_path}")
+
+
 def verify_filename(fname):
     fname = fname
     if os.path.basename(__file__) != fname:
@@ -56,7 +70,7 @@ def verify_filename(fname):
 def check_expiry(expiry_date: str):
     """
     Exits the program if the current date is past the specified expiry date.
-    
+
     :param expiry_date: The expiry date in "YYYY-MM-DD" format.
     """
     current_date = datetime.now().date()
@@ -2557,7 +2571,7 @@ def run_full_automation(params, stop_event, progress_var,progress_label, total_s
                         'MODEL': params['MODEL_CREATE_OOS'],
                     }
                 current_progress = current_progress + progress_step
-                
+
                 log_to_file(params_creator_oos)
 
                 print('---CREATE OOS FULL AUTO processing {SET_FILES_FOLDER}')
@@ -2762,8 +2776,72 @@ def run_full_automation(params, stop_event, progress_var,progress_label, total_s
 
                     print(summary_df)
 
+                    ######################################### copy the set files found in the df store them in the final result file
+
+
+
+                    # source_dir = CUSTOM_REPORT_FOLDER_FULL + '\\' + 'ADXBB'  # Replace with your actual source directory path
+
+
+                    source_dir = os.path.join(CUSTOM_REPORT_FOLDER_FULL, f"ADXBB")
+
+
+                    destination_dir = new_folder  # Replace with your actual destination directory path
+
+                    log_to_file(f'getting list of .set files')
+                    setfile_list = summary_df['SetFile'].tolist()
+                    log_to_file(CUSTOM_REPORT_FOLDER_FULL)
+                    log_to_file(source_dir)
+                    log_to_file(f'list of .set files {setfile_list}')
+                    for setf in setfile_list:
+
+
+                        setf = setf + ".set"
+
+                        log_to_file(f'copying final {setf}')
+                        source_path = os.path.join(source_dir, setf)
+                        destination_path = os.path.join(destination_dir, setf)
+
+                        if os.path.exists(source_path):  # Check if the file exists before copying
+                            shutil.copy(source_path, destination_path)
+                            log_to_file(f'found {setf}')
+                            print(f"Copied: {setf}")
+                        else:
+                            log_to_file(f'NOT FOUND {setf}')
+                            print(f"File not found: {setf}")
+
+
+                    ######################################################################################################## final cleanup
+
+                    RESULTS_folder = os.path.join(SET_FILES_FOLDER, f"RESULTS")
+
+                    if os.path.exists(new_folder):
+                        log_to_file(f'renaming {new_folder} to {RESULTS_folder}')
+                        os.rename(new_folder, RESULTS_folder)
+
+                    else:
+                        log_to_file(f"Directory '{new_folder}' not found!")
+
+
+                    log_to_file(f'deleting temp files')
+
+                    delete_matching_items(SET_FILES_FOLDER, ['creator_oos_report'],['Filtered Report'])
+                    delete_matching_items(SET_FILES_FOLDER, ['backtester_report'],['Filtered Report'])
+                    delete_matching_items(SET_FILES_FOLDER, ['ADXBB'],['Filtered Report'])
+
+                    delete_matching_items(RESULTS_folder, ['.png'],['Filtered Report'])
+
+                    delete_matching_items(RESULTS_folder, ['.htm'],['Filtered Report'])
+
+                    delete_matching_items(RESULTS_folder, ['.html'],['Filtered Report'])
+
+
+
+
             else:
                 print('2nd oos filtered filelist has len of 0')
+
+
             #return
             ##########################################################################################################
             ##########################################################################################################
@@ -3373,7 +3451,7 @@ def create_gui():
     # Layout for Creator OOS Generator Tab
     row = 0
 
-    
+
 
     # full auto - POl ########################
 
@@ -3857,7 +3935,7 @@ def create_gui():
     # load_backtester_settings()
 
 # Start the application initialization
-#verify_filename('backtesterapp.py')
+#verify_filename('backtesterappV205TEST.py')
 check_expiry("2025-03-31")
 
 initialize_application()

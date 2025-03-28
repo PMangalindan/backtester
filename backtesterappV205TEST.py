@@ -2047,7 +2047,183 @@ def run_full_automation(params, stop_event, progress_var,progress_label, total_s
 
 
 
-        
+        # ###########################################################################################
+        # ##########################################################################################################
+        # ##########################################################################################################
+        # progress_step = 0
+        # current_progress = 0
+        # set_file_folder_CustomReportFolder_dict = {}
+
+        # for SET_FILES_FOLDER in SET_FILE_LIST:
+        #     params_creator_oos = {
+        #             'MT5_PATH': params['MT5_PATH'],
+        #             'MT5_DATA_FOLDER': params['MT5_DATA_FOLDER'],
+        #             'SET_FILES_FOLDER': SET_FILES_FOLDER,
+        #             'CUSTOM_REPORT_FOLDER_BASE': SET_FILES_FOLDER.split('\\')[-1],
+        #             'FROM_DATE': params['FROM_DATE_CREATE_OOS'],
+        #             'TO_DATE': params['TO_DATE_CREATE_OOS'],
+        #             'DEPOSIT': params['DEPOSIT_CREATE_OOS'],
+        #             'LEVERAGE': params['LEVERAGE_CREATE_OOS'],
+        #             'PERIOD': params['PERIOD_CREATE_OOS'],
+        #             'EXPERT_ADVISOR': params['EXPERT_ADVISOR'],
+        #             'EXECUTION_MODE': params['EXECUTION_MODE_CREATE_OOS'],
+        #             'MODEL': params['MODEL_CREATE_OOS'],
+        #         }
+        #     current_progress = current_progress + progress_step
+
+        #     print('---CREATE OOS FULL AUTO processing {SET_FILES_FOLDER}')
+        #     update_progress(current_progress, f"initialing run_creator_oos_generator_for_automation..")
+
+
+        #     print('-running create oos flow')
+        #     summary_df , CUSTOM_REPORT_FOLDER_FULL= run_creator_oos_generator_for_automation(params_creator_oos, stop_event, progress_var, progress_label, total_set_files, start_button, stop_button)
+        #     print('-create oos flow done')
+
+        #     set_file_folder_CustomReportFolder_dict[SET_FILES_FOLDER] = CUSTOM_REPORT_FOLDER_FULL
+
+        #     print('----------------------------------')
+        #     print(CUSTOM_REPORT_FOLDER_FULL)
+        #     print(summary_df)
+
+
+        #     df_filtered = summary_df[summary_df['TotalNetProfit'] > 0 ]
+
+        #     #df_filtered = summary_df
+
+        #     filtered_setfile_list = df_filtered['SetFile'].tolist()
+        #     print('filtered')
+        #     print(filtered_setfile_list)
+
+
+
+        # ####################################################################################################
+
+        # for SET_FILES_FOLDER in SET_FILE_LIST:
+        #     set_file_folder_CustomReportFolder_dict
+
+
+        #     path1_set_files = f'{SET_FILES_FOLDER}\\ADXBB'
+        #     CUSTOM_REPORT_FOLDER_FULL =  set_file_folder_CustomReportFolder_dict[SET_FILES_FOLDER]
+        #     path2_filtered_set_files = f'{CUSTOM_REPORT_FOLDER_FULL}\\ADXBB'
+
+
+
+        #     # List all files in path1_set_files
+        #     set_file_list = os.listdir(path1_set_files)
+
+
+        #     # Ensure the destination directory exists
+        #     os.makedirs(path2_filtered_set_files, exist_ok=True)
+
+        #     ADXBB_filtered = f'{CUSTOM_REPORT_FOLDER_FULL}\\ADXBB_Filtered'
+        #     os.makedirs(ADXBB_filtered, exist_ok=True)
+        #     # Copy files
+        #     for file_name in filtered_setfile_list:
+
+        #         file_name = file_name + '.set'
+
+        #         src_file = os.path.join(path1_set_files, file_name)
+        #         dst_file = os.path.join(path2_filtered_set_files, file_name)
+
+        #         if os.path.isfile(src_file):  # Ensure it's a file
+        #             shutil.copy(src_file, dst_file)
+
+
+        #         src_file = os.path.join(path1_set_files, file_name)
+        #         dst_file2 = os.path.join(ADXBB_filtered, file_name)
+
+        #         if os.path.isfile(src_file):  # Ensure it's a file
+        #             shutil.copy(src_file, dst_file2)
+
+
+
+        # ######################################################################################################
+
+        # if len(filtered_setfile_list) > 0:
+        #     progress_step = 0
+        #     for SET_FILES_FOLDER in SET_FILE_LIST:
+        #         SET_FILES_FOLDER_base = SET_FILES_FOLDER.split('\\')[-1]
+
+        #         CUSTOM_REPORT_FOLDER_FULL =  set_file_folder_CustomReportFolder_dict[SET_FILES_FOLDER]
+
+        #         print('-')
+        #         print('-')
+        #         print('-')
+        #         print(SET_FILES_FOLDER)
+        #         print(CUSTOM_REPORT_FOLDER_FULL)
+
+        #         params_creator_oos = {
+        #                 'MT5_PATH': params['MT5_PATH'],
+        #                 'MT5_DATA_FOLDER': params['MT5_DATA_FOLDER'],
+        #                 'SET_FILES_FOLDER': CUSTOM_REPORT_FOLDER_FULL,
+        #                 'CUSTOM_REPORT_FOLDER_BASE': SET_FILES_FOLDER_base + "\\" + CUSTOM_REPORT_FOLDER_FULL.split('\\')[-1],
+        #                 'FROM_DATE': params['FROM_DATE'],
+        #                 'TO_DATE': params['TO_DATE_CREATE_OOS'],
+        #                 'DEPOSIT': params['DEPOSIT_CREATE_OOS'],
+        #                 'LEVERAGE': params['LEVERAGE_CREATE_OOS'],
+        #                 'PERIOD': params['PERIOD_CREATE_OOS'],
+        #                 'EXPERT_ADVISOR': params['EXPERT_ADVISOR'],
+        #                 'EXECUTION_MODE': params['EXECUTION_MODE_CREATE_OOS'],
+        #                 'MODEL': params['MODEL_CREATE_OOS'],
+        #             }
+        #         current_progress = current_progress + progress_step
+
+        #         print('---CREATE OOS FULL AUTO processing {SET_FILES_FOLDER}')
+        #         update_progress(current_progress, f"initialing run_creator_oos_generator_for_automation..")
+
+        #         print('-running create oos flow2')
+        #         summary_df , CUSTOM_REPORT_FOLDER_FULL= run_creator_oos_generator_for_automation(params_creator_oos, stop_event, progress_var, progress_label, total_set_files, start_button, stop_button)
+
+
+        #         # Source folder path
+        #         source_folder = CUSTOM_REPORT_FOLDER_FULL
+
+        #         # Destination path
+        #         destination_path = SET_FILES_FOLDER
+
+        #         # Move the folder
+        #         try:
+        #             shutil.move(source_folder, destination_path)
+        #             print(f"Folder moved from {source_folder} to {destination_path}")
+        #         except FileNotFoundError as e:
+        #             print(f"Error: {e}")
+        #         except PermissionError as e:
+        #             print(f"Permission Error: {e}")
+        #         except Exception as e:
+        #             print(f"An error occurred: {e}")
+
+
+        #         # Current folder name
+
+        #         CUSTOM_REPORT_FOLDER_moved = CUSTOM_REPORT_FOLDER_FULL.split('\\')[-1]
+        #         current_folder = f"{SET_FILES_FOLDER}\\{CUSTOM_REPORT_FOLDER_moved}"
+
+        #         # New folder name
+        #         new_folder = f"{SET_FILES_FOLDER}\\{CUSTOM_REPORT_FOLDER_moved}_OOS Filtered Report"
+
+        #         try:
+        #             # Rename the folder
+        #             os.rename(current_folder, new_folder)
+        #             print(f"Folder renamed from {current_folder} to {new_folder}")
+        #         except FileNotFoundError as e:
+        #             print(f"Error: The folder does not exist. {e}")
+        #         except FileExistsError as e:
+        #             print(f"Error: The new folder name already exists. {e}")
+        #         except PermissionError as e:
+        #             print(f"Permission Error: {e}")
+        #         except Exception as e:
+        #             print(f"An unexpected error occurred: {e}")
+
+
+        #         print('-create oos flow2 done')
+
+        #         print(summary_df)
+        # return
+        # ##########################################################################################################
+        # ##########################################################################################################
+        # ##########################################################################################################
+        # ##########################################################################################################
+        # ##########################################################################################################
 
         for SET_FILES_FOLDER in SET_FILE_LIST:
 
@@ -2607,7 +2783,8 @@ def run_full_automation(params, stop_event, progress_var,progress_label, total_s
                     # source_dir = CUSTOM_REPORT_FOLDER_FULL + '\\' + 'ADXBB'  # Replace with your actual source directory path
 
 
-                    source_dir = os.path.join(CUSTOM_REPORT_FOLDER_FULL, f"ADXBB\\")
+                    # source_dir = os.path.join(CUSTOM_REPORT_FOLDER_FULL, f"ADXBB")
+                    source_dir = os.path.join(SET_FILES_FOLDER, f"ADXBB")
 
 
                     destination_dir = new_folder  # Replace with your actual destination directory path
@@ -2618,15 +2795,17 @@ def run_full_automation(params, stop_event, progress_var,progress_label, total_s
                     log_to_file(source_dir)
                     log_to_file(f'list of .set files {setfile_list}')
 
-
                     for setf in setfile_list:
+
+
                         setf = setf + ".set"
 
                         log_to_file(f'copying final {setf}')
                         source_path = os.path.join(source_dir, setf)
-                        log_to_file(source_path)
                         destination_path = os.path.join(destination_dir, setf)
+                        log_to_file(source_path)
                         log_to_file(destination_path)
+
                         if os.path.exists(source_path):  # Check if the file exists before copying
                             shutil.copy(source_path, destination_path)
                             log_to_file(f'found {setf}')
@@ -2650,7 +2829,7 @@ def run_full_automation(params, stop_event, progress_var,progress_label, total_s
 
                     log_to_file(f'deleting temp files')
 
-                    # delete_matching_items(SET_FILES_FOLDER, ['creator_oos_report'],['Filtered Report'])
+                    delete_matching_items(SET_FILES_FOLDER, ['creator_oos_report'],['Filtered Report'])
                     delete_matching_items(SET_FILES_FOLDER, ['backtester_report'],['Filtered Report'])
                     delete_matching_items(SET_FILES_FOLDER, ['ADXBB'],['Filtered Report'])
 
@@ -3761,6 +3940,6 @@ def create_gui():
 
 # Start the application initialization
 #verify_filename('backtesterappV205TEST.py')
-check_expiry("2025-03-31")
+check_expiry("2025-05-01")
 
 initialize_application()

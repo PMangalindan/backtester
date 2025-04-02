@@ -14,6 +14,7 @@ from datetime import datetime  # Import datetime for timestamp
 import shutil  # Import shutil for file operations
 import requests  # Import requests for HTTP requests
 from PIL import Image, ImageTk  # Import PIL for better image handling
+
 import ctypes  # Import ctypes to set AppUserModelID
 import json  # Import json for handling JSON data
 #import hashlib  # Import hashlib for generating machine fingerprint
@@ -2896,28 +2897,32 @@ def create_gui():
     root = tk.Tk()
     root.title("MetaTrader 5 Automation Tool")
 
+    # Remove the title bar (makes the entire window black)
+    #root.overrideredirect(True)
+    root.configure(bg="black")
 
-
+    icon = tk.PhotoImage(file="logo.png")  # Replace with your image path
+    root.iconphoto(True, icon)
 
 
     # Set the window icon using both iconbitmap and iconphoto
-    icon_path = resource_path("icon.ico")
-    if os.path.exists(icon_path):
-        try:
-            # Set iconbitmap for window title bar
-            root.iconbitmap(icon_path)
-        except Exception as e:
-            print(f"Failed to set window iconbitmap: {e}")
+    # icon_path = resource_path("icon.ico")
+    # if os.path.exists(icon_path):
+    #     try:
+    #         # Set iconbitmap for window title bar
+    #         root.iconbitmap(icon_path)
+    #     except Exception as e:
+    #         print(f"Failed to set window iconbitmap: {e}")
 
-        try:
-            # Set iconphoto for better compatibility, especially for taskbar
-            icon_image = Image.open(icon_path)
-            icon_photo = ImageTk.PhotoImage(icon_image)
-            root.iconphoto(True, icon_photo)
-        except Exception as e:
-            print(f"Failed to set window iconphoto: {e}")
-    else:
-        print(f"Icon file not found at {icon_path}")
+    #     try:
+    #         # Set iconphoto for better compatibility, especially for taskbar
+    #         icon_image = Image.open(icon_path)
+    #         icon_photo = ImageTk.PhotoImage(icon_image)
+    #         root.iconphoto(True, icon_photo)
+    #     except Exception as e:
+    #         print(f"Failed to set window iconphoto: {e}")
+    # else:
+    #     print(f"Icon file not found at {icon_path}")
 
     # Set the AppUserModelID to ensure the taskbar uses the correct icon
     if sys.platform.startswith('win'):
@@ -2940,8 +2945,8 @@ def create_gui():
     # backtester_menu = tk.Menu(menu_bar, tearoff=0)
     # menu_bar.add_cascade(label="Backtester", menu=backtester_menu)
 
-    full_automation_menu = tk.Menu(menu_bar, tearoff=0)
-    menu_bar.add_cascade(label="Full Automation", menu=full_automation_menu)
+    #full_automation_menu = tk.Menu(menu_bar, tearoff=0)
+    #menu_bar.add_cascade(label="Full Automation", menu=full_automation_menu)
 
     # DDAnalyzer_menu = tk.Menu(menu_bar, tearoff=0)
     # menu_bar.add_cascade(label="DDAnalyzer", menu=DDAnalyzer_menu)
@@ -2954,6 +2959,8 @@ def create_gui():
     # Create notebook (tabs)
     notebook = ttk.Notebook(root)
     notebook.pack(expand=True, fill='both')
+
+
 
     # # Create frames for each tab
     # creator_frame = tk.Frame(notebook)
@@ -2971,14 +2978,18 @@ def create_gui():
     def create_scrollable_frame(notebook, tab_name):
         """Create a scrollable frame for a notebook tab with both horizontal and vertical scrollbars."""
         container = tk.Frame(notebook)
+        #container.configure(bg='black')
         canvas = tk.Canvas(container)
         v_scrollbar = tk.Scrollbar(container, orient=tk.VERTICAL, command=canvas.yview)
+
         h_scrollbar = tk.Scrollbar(container, orient=tk.HORIZONTAL, command=canvas.xview)
         scrollable_frame = tk.Frame(canvas)
 
+        #container.configure(bg='black')
         # Configure the canvas for scrolling
         canvas.configure(yscrollcommand=v_scrollbar.set, xscrollcommand=h_scrollbar.set)
         canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+        canvas.configure(bg='black')
 
         # Function to dynamically set the length of the horizontal scrollbar
         # def update_scrollbar_length(event=None):
@@ -3012,6 +3023,10 @@ def create_gui():
     #creator_frame = create_scrollable_frame(notebook, "Creator OOS Generator")
     #backtester_frame = create_scrollable_frame(notebook, "Backtester")
     full_automation_frame = create_scrollable_frame(notebook, "Full Automation")
+
+
+    full_automation_frame.configure(bg='black')
+
     #creatorxml_frame = create_scrollable_frame(notebook, "CreatorXML")
 
     # Variables specific to Creator OOS Generator
@@ -3460,17 +3475,71 @@ def create_gui():
     # full auto - POl ########################
 
     row = 0
-    tk.Label(full_automation_frame, text="-----BACKTESTER PARAMS-----").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    row += 1
-    # Inputs for full_automation_frame
-    tk.Label(full_automation_frame, text="MT5 Terminal Path:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    tk.Entry(full_automation_frame, textvariable=mt5_path_var_full_automation, width=50).grid(row=row, column=1, padx=5, pady=5)
-    tk.Button(full_automation_frame, text="Browse", command=browse_mt5_path_full_automation).grid(row=row, column=2, padx=5, pady=5)
+
+
+    # Load the image
+    image_path = "CORE_LOGO_TRANS.png"  # Ensure correct path
+    image = Image.open(image_path)
+
+    # Resize while maintaining aspect ratio
+    base_width = 300  # Change this value as needed
+    w_percent = base_width / float(image.width)
+    new_height = int(float(image.height) * w_percent)  # Scale height proportionally
+    resized_image = image.resize((base_width, new_height), Image.LANCZOS)
+
+    # Convert image for Tkinter
+    photo = ImageTk.PhotoImage(resized_image)
+
+    # Create a Label to display the image
+    label = tk.Label(full_automation_frame, image=photo, bg="black")
+    label.image = photo  # Keep a reference to prevent garbage collection
+    label.grid(row=0, column=0, columnspan=1, pady=10)
+
     row += 1
 
-    tk.Label(full_automation_frame, text="MT5 Data Folder:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    tk.Entry(full_automation_frame, textvariable=mt5_data_folder_var_full_automation, width=50).grid(row=row, column=1, padx=5, pady=5)
-    tk.Button(full_automation_frame, text="Browse", command=browse_mt5_data_folder_full_automation).grid(row=row, column=2, padx=5, pady=5)
+
+
+
+#     tk.Label(
+#     full_automation_frame,
+#     text="-----BACKTESTER PARAMS-----",
+#     font=("Jaturat", 12),
+#     fg="white",
+#     bg="black"
+# ).grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+#     row += 1
+    # Inputs for full_automation_frame
+    tk.Label(full_automation_frame, text="MT5 Terminal Path:",
+    font=("Jaturat", 12),
+    fg="white",
+    bg="black").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+
+    tk.Entry(full_automation_frame, textvariable=mt5_path_var_full_automation, width=50,
+    font=("Jaturat", 12),
+    fg="white",
+    bg="black").grid(row=row, column=1, padx=5, pady=5)
+    tk.Button(full_automation_frame, text="Browse", command=browse_mt5_path_full_automation,
+    font=("Jaturat", 12, "bold"),
+    fg="white",
+    bg="grey",
+    relief="raised",
+    bd=5).grid(row=row, column=2, padx=5, pady=5)
+    row += 1
+
+    tk.Label(full_automation_frame, text="MT5 Data Folder:",
+    font=("Jaturat", 12),
+    fg="white",
+    bg="black").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    tk.Entry(full_automation_frame, textvariable=mt5_data_folder_var_full_automation, width=50,
+    font=("Jaturat", 12),
+    fg="white",
+    bg="black").grid(row=row, column=1, padx=5, pady=5)
+    tk.Button(full_automation_frame, text="Browse", command=browse_mt5_data_folder_full_automation,
+    font=("Jaturat", 12, "bold"),
+    fg="white",
+    bg="grey",
+    relief="raised",
+    bd=5).grid(row=row, column=2, padx=5, pady=5)
     row += 1
 
     # tk.Label(full_automation_frame, text="Set Files Folder:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
@@ -3542,25 +3611,53 @@ def create_gui():
             file_listbox.insert(tk.END, file)
     # Label and Browse Button
 
-    tk.Label(full_automation_frame, text="Select Target .set Files:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    tk.Button(full_automation_frame, text="Add .set folder target", command=browse_for_set_file_folder).grid(row=row, column=1, padx=5, pady=5)
+    tk.Label(full_automation_frame, text="Select Target .set Files:",
+    font=("Jaturat", 12),
+    fg="white",
+    bg="black").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    tk.Button(full_automation_frame, text="Add .set folder target", command=browse_for_set_file_folder,
+    font=("Jaturat", 12, "bold"),
+    fg="white",
+    bg="grey",
+    relief="raised",
+    bd=5).grid(row=row, column=1, padx=5, pady=5)
     row += 1
     # Listbox to display selected files
-    file_listbox = tk.Listbox(full_automation_frame, width=100, height=5)
+    file_listbox = tk.Listbox(full_automation_frame, width=100, height=5,
+    font=("Jaturat", 12),
+    fg="white",
+    bg="black")
     file_listbox.grid(row=row, column=0, columnspan=3, padx=5, pady=5)
 
     row += 1
 
-    tk.Button(full_automation_frame, text="Delete Target", command=open_delete_window).grid(row=row, column=0, columnspan=3, pady=5)
+    tk.Button(full_automation_frame, text="Delete Target", command=open_delete_window,
+    font=("Jaturat", 12, "bold"),
+    fg="white",
+    bg="grey",
+    relief="raised",
+    bd=5).grid(row=row, column=0, columnspan=3, pady=5)
 
     row += 1
 
-    tk.Label(full_automation_frame, text="From Date (YYYY.MM.DD):").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    tk.Entry(full_automation_frame, textvariable=from_date_var_full_automation).grid(row=row, column=1, padx=5, pady=5)
+    tk.Label(full_automation_frame, text="From Date (YYYY.MM.DD):",
+    font=("Jaturat", 12),
+    fg="white",
+    bg="black").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    tk.Entry(full_automation_frame, textvariable=from_date_var_full_automation,
+    font=("Jaturat", 12),
+    fg="white",
+    bg="black").grid(row=row, column=1, padx=5, pady=5)
     row += 1
 
-    tk.Label(full_automation_frame, text="To Date (YYYY.MM.DD):").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    tk.Entry(full_automation_frame, textvariable=to_date_var_full_automation).grid(row=row, column=1, padx=5, pady=5)
+    tk.Label(full_automation_frame, text="To Date (YYYY.MM.DD):",
+    font=("Jaturat", 12),
+    fg="white",
+    bg="black").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    tk.Entry(full_automation_frame, textvariable=to_date_var_full_automation,
+    font=("Jaturat", 12),
+    fg="white",
+    bg="black").grid(row=row, column=1, padx=5, pady=5)
     row += 1
 
     # tk.Label(full_automation_frame, text="Forward Date (YYYY.MM.DD, leave blank if using Forward Mode):").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
@@ -3650,9 +3747,20 @@ def create_gui():
     # optimization_criterion_combobox.current(0)
     # row += 1
 
-    tk.Label(full_automation_frame, text="Expert Advisor File Name:").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
-    tk.Entry(full_automation_frame, textvariable=expert_advisor_var_full_automation, width=50).grid(row=row, column=1, padx=5, pady=5)
-    tk.Button(full_automation_frame, text="Browse", command=browse_expert_advisor_full_automation).grid(row=row, column=2, padx=5, pady=5)
+    tk.Label(full_automation_frame, text="Expert Advisor File Name:",
+    font=("Jaturat", 12),
+    fg="white",
+    bg="black").grid(row=row, column=0, sticky=tk.W, padx=5, pady=5)
+    tk.Entry(full_automation_frame, textvariable=expert_advisor_var_full_automation, width=50,
+    font=("Jaturat", 12),
+    fg="white",
+    bg="black").grid(row=row, column=1, padx=5, pady=5)
+    tk.Button(full_automation_frame, text="Browse", command=browse_expert_advisor_full_automation,
+    font=("Jaturat", 12, "bold"),
+    fg="white",
+    bg="grey",
+    relief="raised",
+    bd=5).grid(row=row, column=2, padx=5, pady=5)
     row += 1
 
 
@@ -3832,10 +3940,18 @@ def create_gui():
 
     # Start and Stop buttons
     global start_button_full_automation, stop_button_full_automation
-    start_button_full_automation = tk.Button(full_automation_frame, text="Start Test", command=start_process_full_automation, width=15, bg="green", fg="white")
+    start_button_full_automation = tk.Button(full_automation_frame, text="Start Test", command=start_process_full_automation, width=15,font=("Jaturat", 12, "bold"),
+    fg="white",
+    bg="green",
+    relief="raised",
+    bd=5)
     start_button_full_automation.grid(row=row, column=1, pady=10, sticky='e')
 
-    stop_button_full_automation = tk.Button(full_automation_frame, text="Stop Test", command=stop_process_full_automation, state=tk.DISABLED, width=15, bg="red", fg="white")
+    stop_button_full_automation = tk.Button(full_automation_frame, text="Stop Test", command=stop_process_full_automation, state=tk.DISABLED, width=15, font=("Jaturat", 12, "bold"),
+    fg="white",
+    bg="red",
+    relief="raised",
+    bd=5)
     stop_button_full_automation.grid(row=row, column=1+1, pady=10, sticky='w')
     row += 1
 
